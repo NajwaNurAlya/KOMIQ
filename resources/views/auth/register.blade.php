@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Akun Baru - KOMIQ</title>
+    <title>Sign Up - KOMIQ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,72 +13,72 @@
         .font-brand { font-family: 'Outfit', sans-serif; }
     </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100 min-h-screen flex items-center justify-center p-4 selection:bg-red-600 selection:text-white">
+<body class="bg-[#121318] text-zinc-100 min-h-screen flex flex-col justify-between selection:bg-red-600 selection:text-white relative">
 
-    <div class="w-full max-w-4xl bg-zinc-900/90 backdrop-blur border border-zinc-800 rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 my-6">
-        
-        <!-- Sisi Kiri: Visual Branding Merah & Hitam -->
-        <div class="lg:col-span-5 bg-gradient-to-br from-red-950 via-zinc-900 to-black p-8 lg:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-zinc-800 relative overflow-hidden">
-            <!-- Glow background effect -->
-            <div class="absolute -top-24 -left-24 w-64 h-64 bg-red-600/20 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -bottom-24 -right-24 w-64 h-64 bg-red-800/10 rounded-full blur-3xl pointer-events-none"></div>
-
-            <div class="relative z-10">
-                <a href="{{ route('home') }}" class="inline-flex items-center gap-2 mb-8 group">
-                    <span class="w-10 h-10 rounded-xl bg-red-600 text-white font-brand text-2xl flex items-center justify-center shadow-lg shadow-red-600/40 group-hover:scale-105 transition">K</span>
-                    <span class="text-3xl font-extrabold font-brand tracking-wider text-white">KOMIQ<span class="text-red-500">.</span></span>
+    <!-- Top Navigation Bar (Sesuai Mockup SKPL UI01) -->
+    <header class="bg-[#181920]/90 backdrop-blur border-b border-zinc-800/80 sticky top-0 z-50 px-6 py-3.5">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            
+            <!-- Left: Logo & Links -->
+            <div class="flex items-center gap-8">
+                <a href="{{ route('home') }}" class="flex items-center gap-2 group">
+                    <span class="text-2xl font-black font-brand tracking-wider text-white">KOMIQ<span class="text-red-500">.</span></span>
                 </a>
-                
-                <div class="inline-block px-3 py-1 rounded-full bg-red-900/40 border border-red-700/50 text-red-300 text-xs font-semibold uppercase tracking-wider mb-4">
-                    Gabung Komunitas Kami
+
+                <nav class="hidden md:flex items-center gap-6 text-xs font-semibold text-zinc-400">
+                    <a href="{{ route('home') }}" class="text-white hover:text-red-400 transition">Beranda</a>
+                    <a href="{{ route('home') }}" class="hover:text-red-400 transition">Menjelajah</a>
+                    <a href="{{ route('home') }}" class="hover:text-red-400 transition">Pusat Kreator</a>
+                </nav>
+            </div>
+
+            <!-- Center: Search Bar Mockup -->
+            <div class="hidden sm:flex flex-1 max-w-xs mx-4">
+                <div class="relative w-full">
+                    <input type="text" placeholder="Cari..." disabled
+                        class="w-full bg-[#121318] border border-zinc-800 rounded-full px-4 py-1.5 text-xs text-zinc-400 placeholder-zinc-600 focus:outline-none cursor-default">
+                    <span class="absolute right-3 top-2 text-zinc-600 text-xs">🔍</span>
                 </div>
-                
-                <h1 class="text-3xl font-extrabold font-brand text-white leading-tight mb-3">
-                    Mulai Petualangan Komik Tanpa Batas.
-                </h1>
-                <p class="text-zinc-400 text-sm leading-relaxed">
-                    Daftar akun gratis sekarang untuk menikmati ratusan judul komik, berdiskusi di kolom komentar, atau mulai berkarya sebagai Kreator.
+            </div>
+
+            <!-- Right: Auth Action -->
+            <div class="flex items-center gap-3">
+                <a href="{{ route('login') }}"
+                    class="px-4 py-1.5 rounded-lg text-xs font-semibold bg-red-600 hover:bg-red-700 text-white transition shadow-sm">
+                    Masuk
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Main Content Area: Centered Sign Up Dialog Modal -->
+    <main class="flex-1 flex items-center justify-center p-4 py-10">
+        <div class="w-full max-w-md bg-[#1a1b23] border border-zinc-800 rounded-2xl shadow-2xl p-8 relative">
+            
+            <!-- Modal Header (SKPL-UI01: "Sign Up - Sudah punya akun? Sign In.") -->
+            <div class="text-center mb-6">
+                <h1 class="text-2xl font-extrabold text-white font-brand">Sign Up</h1>
+                <p class="text-xs text-zinc-400 mt-1.5">
+                    Sudah punya akun? 
+                    <a href="{{ route('login') }}" class="text-red-500 hover:text-red-400 font-bold ml-1 underline underline-offset-2">
+                        Sign In.
+                    </a>
                 </p>
             </div>
 
-            <div class="relative z-10 mt-8 pt-6 border-t border-zinc-800/80">
-                <div class="space-y-3">
-                    <div class="flex items-start gap-3 text-xs text-zinc-300">
-                        <span class="text-red-400 text-base">✨</span>
-                        <div>
-                            <strong class="text-white block font-medium">Sebagai Pembaca:</strong>
-                            Akses chapter gratis dan premium, simpan histori bacaan, dan dukung karya favorit.
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-3 text-xs text-zinc-300">
-                        <span class="text-red-400 text-base">🎨</span>
-                        <div>
-                            <strong class="text-white block font-medium">Sebagai Kreator:</strong>
-                            Publikasikan karya komikmu, dapatkan pembaca setia, dan raih koin dari chapter premium.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sisi Kanan: Form Register -->
-        <div class="lg:col-span-7 p-8 lg:p-10 bg-zinc-900 flex flex-col justify-center">
-            <div class="mb-6">
-                <h2 class="text-2xl font-bold font-brand text-white">Buat Akun Baru</h2>
-                <p class="text-sm text-zinc-400 mt-1">Isi formulir di bawah ini dengan data yang valid.</p>
-            </div>
-
-            <form action="{{ route('register') }}" method="POST" class="space-y-4">
+            <!-- Form Sign Up -->
+            <form action="{{ route('register') }}" method="POST" class="space-y-3.5">
                 @csrf
 
-                <!-- Nama Lengkap -->
+                <!-- Nama Lengkap / Username -->
                 <div>
-                    <label for="name" class="block text-sm font-semibold text-zinc-300 mb-1.5">Nama Lengkap</label>
+                    <label for="name" class="block text-xs font-semibold text-zinc-300 mb-1">Nama Lengkap (Username)</label>
                     <input type="text" id="name" name="name" value="{{ old('name') }}" required autofocus
-                        placeholder="Contoh: Irma Nurhayati"
-                        class="w-full px-4 py-3 bg-zinc-950 border @error('name') border-red-500 @else border-zinc-800 @enderror rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/30 transition text-sm">
+                        placeholder="Nama Anda"
+                        class="w-full px-3.5 py-2.5 bg-[#121318] border @error('name') border-red-500 @else border-zinc-700/80 @enderror rounded-lg text-white text-xs placeholder-zinc-500 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 transition">
                     @error('name')
-                        <p class="mt-1.5 text-xs text-red-400 flex items-center gap-1">
+                        <p class="mt-1 text-[11px] text-red-400 flex items-center gap-1">
                             <span>⚠️</span> {{ $message }}
                         </p>
                     @enderror
@@ -86,51 +86,42 @@
 
                 <!-- Email -->
                 <div>
-                    <label for="email" class="block text-sm font-semibold text-zinc-300 mb-1.5">Alamat Email</label>
+                    <label for="email" class="block text-xs font-semibold text-zinc-300 mb-1">Email</label>
                     <input type="email" id="email" name="email" value="{{ old('email') }}" required
-                        placeholder="nama@email.com"
-                        class="w-full px-4 py-3 bg-zinc-950 border @error('email') border-red-500 @else border-zinc-800 @enderror rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/30 transition text-sm">
+                        placeholder="email@email.com"
+                        class="w-full px-3.5 py-2.5 bg-[#121318] border @error('email') border-red-500 @else border-zinc-700/80 @enderror rounded-lg text-white text-xs placeholder-zinc-500 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 transition">
                     @error('email')
-                        <p class="mt-1.5 text-xs text-red-400 flex items-center gap-1">
+                        <p class="mt-1 text-[11px] text-red-400 flex items-center gap-1">
                             <span>⚠️</span> {{ $message }}
                         </p>
                     @enderror
                 </div>
 
-                <!-- Pilihan Role (Peran) -->
+                <!-- Peran Akun (Role) -->
                 <div>
-                    <label class="block text-sm font-semibold text-zinc-300 mb-1.5">Daftar Sebagai (Peran Akun)</label>
-                    <div class="grid grid-cols-2 gap-3">
-                        <label class="flex items-center p-3 rounded-xl bg-zinc-950 border border-zinc-800 hover:border-red-800/80 cursor-pointer transition">
+                    <label class="block text-xs font-semibold text-zinc-300 mb-1">Daftar Sebagai Peran</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="flex items-center p-2 rounded-lg bg-[#121318] border border-zinc-800 hover:border-red-800 cursor-pointer transition">
                             <input type="radio" name="role" value="user" {{ old('role', 'user') === 'user' ? 'checked' : '' }}
                                 class="text-red-600 focus:ring-red-600 bg-zinc-900 border-zinc-700">
-                            <div class="ml-2.5">
-                                <span class="block text-xs font-bold text-white">📖 Pembaca</span>
-                                <span class="block text-[11px] text-zinc-400">Menikmati konten</span>
-                            </div>
+                            <span class="ml-2 text-xs font-medium text-white">📖 Pembaca</span>
                         </label>
-                        <label class="flex items-center p-3 rounded-xl bg-zinc-950 border border-zinc-800 hover:border-red-800/80 cursor-pointer transition">
+                        <label class="flex items-center p-2 rounded-lg bg-[#121318] border border-zinc-800 hover:border-red-800 cursor-pointer transition">
                             <input type="radio" name="role" value="kreator" {{ old('role') === 'kreator' ? 'checked' : '' }}
                                 class="text-red-600 focus:ring-red-600 bg-zinc-900 border-zinc-700">
-                            <div class="ml-2.5">
-                                <span class="block text-xs font-bold text-white">🎨 Kreator</span>
-                                <span class="block text-[11px] text-zinc-400">Publikasi komik</span>
-                            </div>
+                            <span class="ml-2 text-xs font-medium text-white">🎨 Kreator</span>
                         </label>
                     </div>
-                    @error('role')
-                        <p class="mt-1.5 text-xs text-red-400">{{ $message }}</p>
-                    @enderror
                 </div>
 
                 <!-- Password -->
                 <div>
-                    <label for="password" class="block text-sm font-semibold text-zinc-300 mb-1.5">Kata Sandi</label>
+                    <label for="password" class="block text-xs font-semibold text-zinc-300 mb-1">Password</label>
                     <input type="password" id="password" name="password" required
                         placeholder="Minimal 8 karakter"
-                        class="w-full px-4 py-3 bg-zinc-950 border @error('password') border-red-500 @else border-zinc-800 @enderror rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/30 transition text-sm">
+                        class="w-full px-3.5 py-2.5 bg-[#121318] border @error('password') border-red-500 @else border-zinc-700/80 @enderror rounded-lg text-white text-xs placeholder-zinc-500 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 transition">
                     @error('password')
-                        <p class="mt-1.5 text-xs text-red-400 flex items-center gap-1">
+                        <p class="mt-1 text-[11px] text-red-400 flex items-center gap-1">
                             <span>⚠️</span> {{ $message }}
                         </p>
                     @enderror
@@ -138,28 +129,29 @@
 
                 <!-- Konfirmasi Password -->
                 <div>
-                    <label for="password_confirmation" class="block text-sm font-semibold text-zinc-300 mb-1.5">Konfirmasi Kata Sandi</label>
+                    <label for="password_confirmation" class="block text-xs font-semibold text-zinc-300 mb-1">Konfirmasi Password</label>
                     <input type="password" id="password_confirmation" name="password_confirmation" required
-                        placeholder="Ulangi kata sandi Anda"
-                        class="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/30 transition text-sm">
+                        placeholder="Ulangi password"
+                        class="w-full px-3.5 py-2.5 bg-[#121318] border border-zinc-700/80 rounded-lg text-white text-xs placeholder-zinc-500 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 transition">
                 </div>
 
-                <!-- Submit Button -->
+                <!-- Tombol Sign Up (Merah Solid Sesuai Mockup SKPL) -->
                 <button type="submit"
-                    class="w-full py-3 px-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold rounded-xl shadow-lg shadow-red-900/50 hover:shadow-red-800/60 active:scale-[0.99] transition duration-200 text-sm mt-2">
-                    Daftar Sekarang
+                    class="w-full py-2.5 px-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg text-xs shadow-lg shadow-red-900/40 active:scale-[0.99] transition duration-200 uppercase tracking-wider mt-2">
+                    Sign Up
                 </button>
             </form>
 
-            <div class="mt-6 pt-6 border-t border-zinc-800 text-center text-sm text-zinc-400">
-                Sudah memiliki akun?
-                <a href="{{ route('login') }}" class="text-red-500 hover:text-red-400 font-bold ml-1 transition underline underline-offset-4">
-                    Masuk di Sini
-                </a>
-            </div>
-        </div>
+            <!-- Disclaimer Text (Sesuai Catatan Bawah Mockup UI01) -->
+            <p class="mt-5 text-[10px] text-zinc-400 text-center leading-relaxed">
+                Dengan berlanjut, anda setuju dengan <a href="#" class="text-zinc-300 underline hover:text-white">Syarat Pengguna</a> dan <a href="#" class="text-zinc-300 underline hover:text-white">Privasi</a> platform KOMIQ.
+            </p>
 
-    </div>
+        </div>
+    </main>
+
+    <!-- Bottom Red Accent Stripe (Sesuai Garis Merah di Bagian Bawah Gambar SKPL-UI01) -->
+    <div class="w-full h-3 bg-red-600 shadow-[0_-2px_15px_rgba(220,38,38,0.5)]"></div>
 
 </body>
 </html>

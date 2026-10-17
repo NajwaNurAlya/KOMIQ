@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
@@ -12,7 +11,7 @@ class AuthTest extends TestCase
     {
         $response = $this->get('/register');
         $response->assertStatus(200);
-        $response->assertSee('Buat Akun Baru');
+        $response->assertSee('Sign Up');
     }
 
     public function test_user_can_register_as_reader(): void
@@ -38,7 +37,7 @@ class AuthTest extends TestCase
     {
         $response = $this->get('/login');
         $response->assertStatus(200);
-        $response->assertSee('Selamat Datang Kembali!');
+        $response->assertSee('Sign In');
     }
 
     public function test_user_can_login_with_valid_credentials(): void
