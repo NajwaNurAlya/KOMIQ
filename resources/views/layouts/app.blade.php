@@ -292,6 +292,15 @@
                 <a href="/" class="nav-link">
                     🏠 Beranda
                 </a>
+                @auth
+                    <!-- Tombol Keluar Sesuai Gambar 3 -->
+                    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-secondary btn-sm" style="font-weight: 600;">
+                            Keluar
+                        </button>
+                    </form>
+                @endauth
             </div>
         </div>
     </nav>
