@@ -1,17 +1,10 @@
-<?php
-
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Comic extends Model
 {
     use HasFactory;
-
-    protected $table = 'comics';
 
     protected $fillable = [
         'user_id',
@@ -23,26 +16,17 @@ class Comic extends Model
         'is_hidden',
     ];
 
-    protected function casts(): array
+    public function user()
     {
-        return [
-            'is_hidden' => 'boolean',
-        ];
+        return $this->belongsTo(User::class);
     }
 
-    /**
-     * Relasi ke kreator pemilik komik.
-     */
-    public function user(): BelongsTo
+    public function genres()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsToMany(Genre::class, 'comic_genre');
     }
-
-    /**
-     * Relasi ke chapters milik komik ini.
-     */
-    public function chapters(): HasMany
+    public function chapters()
     {
-        return $this->hasMany(Chapter::class, 'comic_id');
+        return $this->hasMany(Chapter::class);
     }
 }
