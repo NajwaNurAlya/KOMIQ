@@ -47,9 +47,9 @@
 
             <!-- Right: User Avatar & Coin Balance -->
             <div class="flex items-center gap-4">
-                <!-- Saldo Koin -->
+                <!-- Saldo Koin (Ikon Uang) -->
                 <div class="flex items-center gap-2 bg-[#121318] border border-zinc-800 px-3 py-1 rounded-full text-xs font-bold text-amber-300 shadow-inner">
-                    <span>🪙</span>
+                    <span>💵</span>
                     <span>{{ number_format($user->coin_balance) }} Koin</span>
                 </div>
 
@@ -59,11 +59,11 @@
                     <span class="hidden md:inline text-xs font-bold text-white">{{ $user->name }}</span>
                 </div>
 
-                <!-- Logout -->
+                <!-- Logout (Tombol Tulisan Keluar Sesuai Gambar 3) -->
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <button type="submit" title="Keluar" class="p-1.5 rounded-lg bg-zinc-800/80 hover:bg-red-600 text-zinc-400 hover:text-white text-xs transition">
-                        🚪
+                    <button type="submit" class="px-4 py-1.5 rounded-lg bg-zinc-800 hover:bg-red-600 text-zinc-200 hover:text-white text-xs font-bold transition duration-200">
+                        Keluar
                     </button>
                 </form>
             </div>
@@ -131,10 +131,10 @@
                     <span>Keamanan & Sandi</span>
                 </button>
 
-                <!-- Tab 3: Saldo & Koin -->
+                <!-- Tab 3: Saldo & Koin (Ikon Uang) -->
                 <button type="button" onclick="switchTab('tab-coins')" id="btn-tab-coins"
                     class="tab-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition">
-                    <span class="text-sm">🪙</span>
+                    <span class="text-sm">💵</span>
                     <span>Saldo & Koin</span>
                 </button>
 
@@ -300,7 +300,7 @@
                     </form>
                 </div>
 
-                <!-- ==================== TAB 3: SALDO & KOIN ==================== -->
+                <!-- ==================== TAB 3: SALDO & KOIN (Ikon Uang) ==================== -->
                 <div id="tab-coins" class="tab-content hidden space-y-6">
                     <div class="border-b border-zinc-800 pb-3">
                         <h2 class="text-lg font-bold text-white font-brand">Saldo & Koin Akun</h2>
@@ -310,7 +310,7 @@
                     <div class="bg-[#121318] border border-zinc-800 rounded-xl p-6 text-center max-w-lg mx-auto space-y-3">
                         <span class="text-xs uppercase font-bold text-zinc-400 tracking-wider">Total Saldo Koin</span>
                         <div class="flex items-center justify-center gap-2 text-4xl font-extrabold text-amber-400 font-brand">
-                            <span>🪙</span>
+                            <span>💵</span>
                             <span>{{ number_format($user->coin_balance) }}</span>
                         </div>
                         <p class="text-xs text-zinc-400">
