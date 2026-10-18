@@ -37,7 +37,7 @@
                 <label for="pages" class="form-label">Unggah Gambar Halaman Komik (Pages) *</label>
                 <div style="border: 2px dashed var(--border-color); border-radius: 12px; padding: 2rem; text-align: center; background: var(--bg-secondary); cursor: pointer;"
                      onclick="document.getElementById('pages').click();">
-                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🖼️</div>
+                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;"><x-icon name="image" stroke-width="1.5" style="color: var(--text-muted)" /></div>
                     <p style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">
                         Klik untuk memilih berkas gambar komik
                     </p>
@@ -47,12 +47,12 @@
                     <input type="file" id="pages" name="pages[]" multiple accept="image/jpeg,image/png,image/jpg,image/webp" 
                            style="display: none;" onchange="previewImages(event)">
                 </div>
-                <div id="file-count" style="margin-top: 0.5rem; font-size: 0.85rem; color: #818cf8; font-weight: 600;"></div>
+                <div id="file-count" style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--accent-text); font-weight: 600;"></div>
                 <div id="preview-container" style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem;"></div>
             </div>
 
             <!-- Pengaturan Premium & Koin Simulasi -->
-            <div style="background: rgba(19, 27, 46, 0.7); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; margin: 1.5rem 0;">
+            <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; margin: 1.5rem 0;">
                 <div style="display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 700; color: #fff;">Jadikan Chapter Premium</div>
@@ -72,7 +72,7 @@
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
                         <input type="number" id="coin_price" name="coin_price" class="form-control" 
                                style="max-width: 200px;" value="{{ old('coin_price', 10) }}" min="1">
-                        <span style="color: var(--text-secondary); font-size: 0.9rem;">🪙 Koin</span>
+                        <span style="color: var(--text-secondary); font-size: 0.9rem;"><x-icon name="coins" /> Koin</span>
                     </div>
                 </div>
             </div>
@@ -82,7 +82,7 @@
                     Batal
                 </a>
                 <button type="submit" class="btn btn-primary">
-                    💾 Simpan sebagai Draft
+                    <x-icon name="save" /> Simpan sebagai Draft
                 </button>
             </div>
         </form>

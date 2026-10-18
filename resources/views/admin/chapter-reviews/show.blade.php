@@ -9,7 +9,7 @@
     </a>
     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 0.5rem; flex-wrap: wrap; gap: 1rem;">
         <div>
-            <div style="font-size: 0.875rem; color: #818cf8; font-weight: 600;">
+            <div style="font-size: 0.875rem; color: var(--accent-text); font-weight: 600;">
                 {{ $chapter->comic?->title ?? 'Komik' }} • Oleh {{ $chapter->comic?->user?->name ?? 'Kreator' }}
             </div>
             <h1 style="font-size: 1.85rem; margin-top: 0.25rem;">
@@ -17,18 +17,10 @@
             </h1>
         </div>
         <div style="display: flex; align-items: center; gap: 0.5rem;">
-            @if($chapter->isDraft())
-                <span class="badge badge-draft">Draft</span>
-            @elseif($chapter->isPending())
-                <span class="badge badge-pending">Menunggu Review</span>
-            @elseif($chapter->isApproved())
-                <span class="badge badge-approved">Approved</span>
-            @elseif($chapter->isRejected())
-                <span class="badge badge-rejected">Rejected</span>
-            @endif
+            <x-chapter-status :chapter="$chapter" />
 
             @if($chapter->is_premium)
-                <span class="badge badge-premium">🪙 {{ $chapter->coin_price }} Koin</span>
+                <span class="badge badge-premium"><x-icon name="coins" /> {{ $chapter->coin_price }} Koin</span>
             @endif
         </div>
     </div>
@@ -39,7 +31,7 @@
     <div>
         <div class="card" style="padding: 1.25rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
             <div style="font-weight: 600; color: #fff;">
-                🖼️ Halaman Komik (Total: {{ $chapter->page_count }} Halaman)
+                <x-icon name="image" /> Halaman Komik (Total: {{ $chapter->page_count }} Halaman)
             </div>
             <div style="font-size: 0.85rem; color: var(--text-muted);">
                 Urutan tampilan dari atas ke bawah
@@ -60,7 +52,7 @@
             </div>
         @else
             <div class="card" style="text-align: center; padding: 3rem 1.5rem; color: var(--text-muted);">
-                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">⚠️</div>
+                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;"><x-icon name="triangle-alert" stroke-width="1.5" style="color: var(--text-muted)" /></div>
                 <p>Tidak ada berkas halaman gambar yang tersimpan untuk chapter ini.</p>
             </div>
         @endif
@@ -70,13 +62,13 @@
     <div style="position: sticky; top: 5rem;">
         <div class="card">
             <h3 style="font-size: 1.15rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
-                ⚖️ Keputusan Moderasi
+                <x-icon name="scale" /> Keputusan Moderasi
             </h3>
 
             @if($chapter->isApproved())
                 <div class="alert alert-success" style="margin-bottom: 1rem; font-size: 0.875rem;">
                     <div>
-                        <strong>✅ Telah Disetujui</strong>
+                        <strong><x-icon name="circle-check" /> Telah Disetujui</strong>
                         <div style="font-size: 0.8rem; margin-top: 0.25rem;">
                             Disetujui pada: {{ $chapter->reviewed_at?->format('d M Y, H:i') }}<br>
                             Pemeriksa: {{ $chapter->reviewer?->name ?? 'Admin' }}
@@ -86,7 +78,7 @@
             @elseif($chapter->isRejected())
                 <div class="alert alert-error" style="margin-bottom: 1rem; font-size: 0.875rem;">
                     <div>
-                        <strong>❌ Telah Ditolak</strong>
+                        <strong><x-icon name="circle-x" /> Telah Ditolak</strong>
                         <div style="font-size: 0.8rem; margin-top: 0.25rem;">
                             Catatan: "{{ $chapter->review_note }}"<br>
                             Ditolak pada: {{ $chapter->reviewed_at?->format('d M Y, H:i') }}
@@ -100,14 +92,14 @@
                   onsubmit="return confirm('Apakah Anda yakin ingin MENYETUJUI chapter ini? Chapter akan langsung dipublikasikan untuk pembaca.');">
                 @csrf
                 <button type="submit" class="btn btn-success" style="width: 100%; justify-content: center; padding: 0.75rem;">
-                    ✅ Setujui Chapter (Approve)
+                    <x-icon name="circle-check" /> Setujui Chapter (Approve)
                 </button>
             </form>
 
             <!-- Tombol Buka Form Tolak (Reject) -->
             <button type="button" class="btn btn-danger" style="width: 100%; justify-content: center; padding: 0.75rem;"
                     onclick="toggleRejectForm()">
-                ❌ Tolak Chapter (Reject)
+                <x-icon name="circle-x" /> Tolak Chapter (Reject)
             </button>
 
             <!-- Form Tolak dengan Review Note -->

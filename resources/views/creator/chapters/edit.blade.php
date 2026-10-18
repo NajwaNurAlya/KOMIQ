@@ -10,18 +10,14 @@
         </a>
         <div style="display: flex; align-items: center; gap: 0.75rem; margin-top: 0.5rem;">
             <h1 style="font-size: 1.75rem;">Edit Chapter {{ $chapter->chapter_number }}</h1>
-            @if($chapter->isRejected())
-                <span class="badge badge-rejected">Ditolak</span>
-            @elseif($chapter->isDraft())
-                <span class="badge badge-draft">Draft</span>
-            @endif
+            <x-chapter-status :chapter="$chapter" />
         </div>
     </div>
 
     @if($chapter->isRejected() && $chapter->review_note)
         <div class="alert alert-error" style="margin-bottom: 1.5rem; display: block;">
             <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; font-weight: 700; color: #f87171;">
-                <span>⚠️ Catatan Evaluasi dari Admin:</span>
+                <span><x-icon name="triangle-alert" /> Catatan Evaluasi dari Admin:</span>
             </div>
             <div style="background: rgba(0, 0, 0, 0.25); padding: 0.85rem; border-radius: 8px; color: #fecaca; font-size: 0.95rem; line-height: 1.5;">
                 "{{ $chapter->review_note }}"
@@ -83,7 +79,7 @@
             </div>
 
             <!-- Pengaturan Premium & Koin Simulasi -->
-            <div style="background: rgba(19, 27, 46, 0.7); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; margin: 1.5rem 0;">
+            <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; margin: 1.5rem 0;">
                 <div style="display: flex; align-items: center; justify-content: space-between;">
                     <div>
                         <div style="font-weight: 700; color: #fff;">Jadikan Chapter Premium</div>
@@ -103,7 +99,7 @@
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
                         <input type="number" id="coin_price" name="coin_price" class="form-control" 
                                style="max-width: 200px;" value="{{ old('coin_price', $chapter->coin_price) }}" min="1">
-                        <span style="color: var(--text-secondary); font-size: 0.9rem;">🪙 Koin</span>
+                        <span style="color: var(--text-secondary); font-size: 0.9rem;"><x-icon name="coins" /> Koin</span>
                     </div>
                 </div>
             </div>
@@ -113,7 +109,7 @@
                     Batal
                 </a>
                 <button type="submit" class="btn btn-primary">
-                    💾 Simpan Perubahan
+                    <x-icon name="save" /> Simpan Perubahan
                 </button>
             </div>
         </form>

@@ -11,7 +11,7 @@
     </div>
     <div>
         <a href="{{ route('creator.comics.chapters.create', $comic->id) }}" class="btn btn-primary">
-            <span>➕</span> Tambah Chapter Baru
+            <x-icon name="plus" /> Tambah Chapter Baru
         </a>
     </div>
 </div>
@@ -48,24 +48,24 @@
 
     @if($chapters->count() > 0)
         <div style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.925rem;">
+            <table class="table">
                 <thead>
-                    <tr style="background: rgba(19, 27, 46, 0.6); color: var(--text-muted); border-bottom: 1px solid var(--border-color);">
-                        <th style="padding: 1rem 1.25rem;">#</th>
-                        <th style="padding: 1rem 1.25rem;">Judul Chapter</th>
-                        <th style="padding: 1rem 1.25rem;">Halaman</th>
-                        <th style="padding: 1rem 1.25rem;">Tipe & Harga</th>
-                        <th style="padding: 1rem 1.25rem;">Status</th>
-                        <th style="padding: 1rem 1.25rem; text-align: right;">Aksi</th>
+                    <tr>
+                        <th>#</th>
+                        <th>Judul Chapter</th>
+                        <th>Halaman</th>
+                        <th>Tipe & Harga</th>
+                        <th>Status</th>
+                        <th style="text-align: right;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($chapters as $chapter)
-                        <tr style="border-bottom: 1px solid var(--border-color); transition: background 0.15s;">
-                            <td style="padding: 1.25rem; font-weight: 700; color: #fff;">
+                        <tr>
+                            <td style="font-weight: 700; color: #fff;">
                                 Ch. {{ $chapter->chapter_number }}
                             </td>
-                            <td style="padding: 1.25rem;">
+                            <td>
                                 <div style="font-weight: 600; color: var(--text-primary);">{{ $chapter->title }}</div>
                                 <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
                                     Dibuat: {{ $chapter->created_at?->format('d M Y, H:i') }}
@@ -73,58 +73,50 @@
 
                                 @if($chapter->isRejected() && $chapter->review_note)
                                     <div style="margin-top: 0.75rem; padding: 0.6rem 0.9rem; background: rgba(239, 68, 68, 0.1); border-left: 3px solid #ef4444; border-radius: 6px; font-size: 0.825rem; color: #fca5a5;">
-                                        <strong>⚠️ Catatan Penolakan Admin:</strong> {{ $chapter->review_note }}
+                                        <strong><x-icon name="triangle-alert" /> Catatan Penolakan Admin:</strong> {{ $chapter->review_note }}
                                     </div>
                                 @endif
                             </td>
-                            <td style="padding: 1.25rem; color: var(--text-secondary);">
-                                📄 {{ $chapter->page_count }} Hal
+                            <td style="color: var(--text-secondary);">
+                                <x-icon name="file-text" /> {{ $chapter->page_count }} Hal
                             </td>
-                            <td style="padding: 1.25rem;">
+                            <td>
                                 @if($chapter->is_premium)
-                                    <span class="badge badge-premium">🪙 {{ $chapter->coin_price }} Koin</span>
+                                    <span class="badge badge-premium"><x-icon name="coins" /> {{ $chapter->coin_price }} Koin</span>
                                 @else
                                     <span style="color: var(--text-muted); font-size: 0.85rem;">Gratis</span>
                                 @endif
                             </td>
-                            <td style="padding: 1.25rem;">
-                                @if($chapter->isDraft())
-                                    <span class="badge badge-draft">Draft</span>
-                                @elseif($chapter->isPending())
-                                    <span class="badge badge-pending">Menunggu Review</span>
-                                @elseif($chapter->isApproved())
-                                    <span class="badge badge-approved">Approved</span>
-                                @elseif($chapter->isRejected())
-                                    <span class="badge badge-rejected">Rejected</span>
-                                @endif
+                            <td>
+                                <x-chapter-status :chapter="$chapter" />
                             </td>
-                            <td style="padding: 1.25rem; text-align: right;">
+                            <td style="text-align: right;">
                                 <div style="display: inline-flex; gap: 0.5rem; align-items: center; justify-content: flex-end;">
                                     @if($chapter->canBeSubmitted())
                                         <form action="{{ route('creator.comics.chapters.submit', [$comic->id, $chapter->id]) }}" method="POST" onsubmit="return confirm('Kirim chapter ini ke Admin untuk ditinjau?');">
                                             @csrf
                                             <button type="submit" class="btn btn-success btn-sm" title="Kirim untuk ditinjau Admin">
-                                                🚀 Ajukan
+                                                <x-icon name="send" /> Ajukan
                                             </button>
                                         </form>
                                     @endif
 
                                     @if($chapter->canBeEdited())
                                         <a href="{{ route('creator.comics.chapters.edit', [$comic->id, $chapter->id]) }}" class="btn btn-secondary btn-sm">
-                                            ✏️ Edit
+                                            <x-icon name="pencil" /> Edit
                                         </a>
                                         <form action="{{ route('creator.comics.chapters.destroy', [$comic->id, $chapter->id]) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus chapter ini? Tindakan tidak dapat dibatalkan.');">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm">
-                                                🗑️
+                                                <x-icon name="trash-2" />
                                             </button>
                                         </form>
                                     @endif
 
                                     @if($chapter->isApproved())
                                         <a href="{{ route('comics.chapters.show', [$comic->id, $chapter->chapter_number]) }}" target="_blank" class="btn btn-secondary btn-sm" title="Baca di Webtoon Reader">
-                                            📖 Baca Publik
+                                            <x-icon name="book-open" /> Baca Publik
                                         </a>
                                     @endif
                                 </div>
@@ -140,11 +132,11 @@
         </div>
     @else
         <div style="padding: 3rem 1.5rem; text-align: center; color: var(--text-muted);">
-            <div style="font-size: 3rem; margin-bottom: 0.5rem;">📖</div>
+            <div style="font-size: 3rem; margin-bottom: 0.5rem;"><x-icon name="book-open" stroke-width="1.5" style="color: var(--text-muted)" /></div>
             <p style="font-size: 1.1rem; color: var(--text-primary); margin-bottom: 0.5rem;">Belum ada chapter pada komik ini.</p>
             <p style="font-size: 0.9rem; margin-bottom: 1.5rem;">Mulai dengan mengunggah chapter perdana untuk komik Anda.</p>
             <a href="{{ route('creator.comics.chapters.create', $comic->id) }}" class="btn btn-primary">
-                ➕ Unggah Chapter Perdana
+                <x-icon name="plus" /> Unggah Chapter Perdana
             </a>
         </div>
     @endif
