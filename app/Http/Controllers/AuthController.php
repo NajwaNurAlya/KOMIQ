@@ -11,17 +11,11 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    /**
-     * Menampilkan halaman registrasi akun.
-     */
     public function showRegister()
     {
         return view('auth.register');
     }
 
-    /**
-     * Memproses pendaftaran akun baru.
-     */
     public function register(Request $request)
     {
         $validated = $request->validate([
@@ -55,17 +49,11 @@ class AuthController extends Controller
         return redirect()->route('profile.show')->with('success', "Selamat datang di KOMIQ, {$user->name}! Akunmu berhasil didaftarkan.");
     }
 
-    /**
-     * Menampilkan halaman login.
-     */
     public function showLogin()
     {
         return view('auth.login');
     }
 
-    /**
-     * Memproses autentikasi login.
-     */
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -85,7 +73,6 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
-        // Cek status keaktifan akun
         if (!$user->is_active) {
             Auth::logout();
             $request->session()->invalidate();
@@ -98,7 +85,6 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        // Pengalihan cerdas sesuai Role
         if ($user->isAdmin()) {
             return redirect()->intended(route('admin.chapter-reviews.index'));
         }
@@ -106,9 +92,6 @@ class AuthController extends Controller
         return redirect()->intended(route('profile.show'))->with('success', "Selamat datang kembali, {$user->name}!");
     }
 
-    /**
-     * Memproses keluar (logout) dari sistem.
-     */
     public function logout(Request $request)
     {
         Auth::logout();
