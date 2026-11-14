@@ -88,14 +88,10 @@ class User extends Authenticatable
     }
 
     /**
-     * URL Avatar pengguna dengan fallback UI Avatars.
+     * URL avatar pengguna dari UI Avatars.
      */
     public function getAvatarUrlAttribute(): string
     {
-        if ($this->avatar && (file_exists(public_path($this->avatar)) || str_starts_with($this->avatar, 'http'))) {
-            return str_starts_with($this->avatar, 'http') ? $this->avatar : asset($this->avatar);
-        }
-
         return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=dc2626&color=ffffff&bold=true';
     }
 

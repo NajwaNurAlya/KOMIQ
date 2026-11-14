@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
@@ -51,49 +50,6 @@ class ProfileController extends Controller
         $user->save();
 
         return back()->with('success', 'Informasi profil berhasil diperbarui!');
-    }
-
-    /**
-     * Mengunggah atau memperbarui foto profil (avatar).
-     */
-    public function updateAvatar(Request $request)
-    {
-        /** @var User $user */
-        $user = Auth::user();
-
-        $request->validate([
-            'avatar' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
-        ], [
-            'avatar.required' => 'Pilih file foto profil terlebih dahulu.',
-            'avatar.image' => 'File harus berupa gambar.',
-            'avatar.mimes' => 'Format gambar yang diizinkan adalah jpeg, png, jpg, atau webp.',
-            'avatar.max' => 'Ukuran file gambar maksimal 2 MB.',
-        ]);
-
-        if ($request->hasFile('avatar')) {
-            $file = $request->file('avatar');
-            $filename = 'avatar_' . $user->id . '_' . time() . '.' . $file->getClientOriginalExtension();
-            
-            // Simpan file ke direktori storage/app/public/avatars
-            $destinationPath = storage_path('app/public/avatars');
-            if (!File::isDirectory($destinationPath)) {
-                File::makeDirectory($destinationPath, 0755, true, true);
-            }
-
-            // Hapus foto profil lama jika ada di storage lokal
-            if ($user->avatar && str_starts_with($user->avatar, 'storage/avatars/')) {
-                $oldPath = public_path($user->avatar);
-                if (File::exists($oldPath)) {
-                    File::delete($oldPath);
-                }
-            }
-
-            $file->move($destinationPath, $filename);
-            $user->avatar = 'storage/avatars/' . $filename;
-            $user->save();
-        }
-
-        return back()->with('success', 'Foto profil berhasil diperbarui!');
     }
 
     /**

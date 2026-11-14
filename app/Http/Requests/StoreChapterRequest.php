@@ -7,19 +7,11 @@ use Illuminate\Validation\Rule;
 
 class StoreChapterRequest extends FormRequest
 {
-    /**
-     * Tentukan apakah pengguna diotorisasi untuk membuat request ini.
-     */
     public function authorize(): bool
     {
-        return true; // Otorisasi detail ditangani di Controller/Policy
+        return true;
     }
 
-    /**
-     * Aturan validasi yang berlaku untuk request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         $comicId = $this->route('comic')?->id ?? $this->route('comic') ?? $this->input('comic_id');
@@ -36,7 +28,7 @@ class StoreChapterRequest extends FormRequest
             ],
             'title' => ['required', 'string', 'max:255'],
             'pages' => ['required', 'array', 'min:1'],
-            'pages.*' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'], // Max 5MB per halaman
+            'pages.*' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
             'is_premium' => ['nullable', 'boolean'],
             'coin_price' => [
                 'nullable',
@@ -47,11 +39,6 @@ class StoreChapterRequest extends FormRequest
         ];
     }
 
-    /**
-     * Pesan kesalahan khusus untuk validasi.
-     *
-     * @return array<string, string>
-     */
     public function messages(): array
     {
         return [
@@ -72,9 +59,6 @@ class StoreChapterRequest extends FormRequest
         ];
     }
 
-    /**
-     * Persiapkan data sebelum divalidasi.
-     */
     protected function prepareForValidation(): void
     {
         if ($this->has('is_premium')) {

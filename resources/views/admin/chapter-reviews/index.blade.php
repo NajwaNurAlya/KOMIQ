@@ -77,7 +77,7 @@
                                 {{ $chapter->updated_at?->diffForHumans() }}
                             </td>
                             <td style="text-align: right;">
-                                <a href="{{ route('admin.chapter-reviews.show', $chapter->id) }}" class="btn btn-primary btn-sm">
+                                <a href="{{ route('admin.chapter-reviews.show', $chapter->id) }}" class="btn btn-primary btn-sm whitespace-nowrap">
                                     <x-icon name="search" /> Periksa & Review
                                 </a>
                             </td>

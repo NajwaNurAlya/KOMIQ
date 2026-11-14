@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ChapterReviewController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Creator\ChapterController as CreatorChapterController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicChapterController;
 use Illuminate\Support\Facades\Route;
@@ -17,9 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Halaman Utama / Landing Page
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', HomeController::class)->name('home');
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +45,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::post('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
 });
 

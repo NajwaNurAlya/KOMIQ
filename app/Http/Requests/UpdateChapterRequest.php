@@ -7,19 +7,11 @@ use Illuminate\Validation\Rule;
 
 class UpdateChapterRequest extends FormRequest
 {
-    /**
-     * Tentukan apakah pengguna diotorisasi untuk membuat request ini.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Aturan validasi yang berlaku untuk request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         $chapter = $this->route('chapter');
@@ -51,11 +43,6 @@ class UpdateChapterRequest extends FormRequest
         ];
     }
 
-    /**
-     * Pesan kesalahan khusus untuk validasi.
-     *
-     * @return array<string, string>
-     */
     public function messages(): array
     {
         return [
@@ -73,9 +60,6 @@ class UpdateChapterRequest extends FormRequest
         ];
     }
 
-    /**
-     * Persiapkan data sebelum divalidasi.
-     */
     protected function prepareForValidation(): void
     {
         if ($this->has('is_premium')) {

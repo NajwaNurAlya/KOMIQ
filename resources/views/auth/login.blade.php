@@ -44,29 +44,5 @@
 
         <button type="submit" class="btn btn-primary w-full">Sign In</button>
     </form>
-
-    <div class="mt-6 pt-5 border-t border-[var(--border-color)] text-center">
-        <span class="text-xs text-zinc-400 block mb-2 font-medium">Akun Pengujian Demo (Klik Cepat):</span>
-        <div class="grid grid-cols-3 gap-2">
-            <button type="button" onclick="quickFill('admin@komiq.com', 'password123')" class="btn btn-secondary btn-sm">
-                <x-icon name="shield" /> Admin
-            </button>
-            <button type="button" onclick="quickFill('kreator@komiq.com', 'password123')" class="btn btn-secondary btn-sm">
-                <x-icon name="palette" /> Kreator
-            </button>
-            <button type="button" onclick="quickFill('user@komiq.com', 'password123')" class="btn btn-secondary btn-sm">
-                <x-icon name="book-open" /> User
-            </button>
-        </div>
-    </div>
 </div>
-@endsection
-
-@section('scripts')
-<script>
-    function quickFill(email, password) {
-        document.getElementById('email').value = email;
-        document.getElementById('password').value = password;
-    }
-</script>
 @endsection

@@ -35,25 +35,12 @@
         <div id="tab-profile" class="tab-content space-y-6">
             <div class="border-b border-[var(--border-color)] pb-3">
                 <h2 class="text-lg font-bold text-white">Informasi Akun</h2>
-                <p class="text-xs text-zinc-400">Atur avatar, nama pengguna, email, dan status visibilitas akun Anda.</p>
+                <p class="text-xs text-zinc-400">Atur nama pengguna, email, dan status visibilitas akun Anda.</p>
             </div>
 
-            <div class="flex flex-col items-center justify-center pt-2 pb-4">
-                <div class="relative">
-                    <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}"
-                        class="w-24 h-24 rounded-full object-cover border-2 border-red-600">
-                    <label for="avatar_input" title="Ganti Foto Profil"
-                        class="absolute bottom-0 right-0 bg-red-600 hover:bg-red-500 text-white p-2 rounded-full cursor-pointer transition">
-                        <x-icon name="camera" class="text-sm" />
-                    </label>
-                </div>
-
-                <form id="avatar_form" action="{{ route('profile.avatar') }}" method="POST" enctype="multipart/form-data" class="hidden">
-                    @csrf
-                    <input type="file" id="avatar_input" name="avatar" accept="image/jpeg,image/png,image/jpg,image/webp"
-                        onchange="document.getElementById('avatar_form').submit();">
-                </form>
-                <span class="text-[11px] text-zinc-500 mt-2">Klik ikon kamera untuk mengganti foto avatar</span>
+            <div class="flex justify-center pt-2 pb-4">
+                <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}"
+                    class="w-24 h-24 rounded-full object-cover border-2 border-red-600">
             </div>
 
             <form action="{{ route('profile.update') }}" method="POST" class="space-y-4 max-w-lg mx-auto">

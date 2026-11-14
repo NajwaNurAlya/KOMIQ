@@ -87,6 +87,7 @@
                 </div>
             @endif
 
+            @if($chapter->isPending())
             <!-- Form Setujui (Approve) -->
             <form action="{{ route('admin.chapter-reviews.approve', $chapter->id) }}" method="POST" style="margin-bottom: 1rem;"
                   onsubmit="return confirm('Apakah Anda yakin ingin MENYETUJUI chapter ini? Chapter akan langsung dipublikasikan untuk pembaca.');">
@@ -118,6 +119,7 @@
                     </button>
                 </form>
             </div>
+            @endif
         </div>
 
         <!-- Info Detail Chapter -->

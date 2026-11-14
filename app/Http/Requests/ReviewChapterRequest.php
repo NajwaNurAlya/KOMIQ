@@ -6,19 +6,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ReviewChapterRequest extends FormRequest
 {
-    /**
-     * Tentukan apakah pengguna diotorisasi untuk membuat request ini.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Aturan validasi yang berlaku untuk request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
@@ -32,11 +24,6 @@ class ReviewChapterRequest extends FormRequest
         ];
     }
 
-    /**
-     * Pesan kesalahan khusus untuk validasi.
-     *
-     * @return array<string, string>
-     */
     public function messages(): array
     {
         return [
