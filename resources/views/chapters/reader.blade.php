@@ -44,7 +44,6 @@
         </div>
     @endif
 
-    <!-- Top Navigation Bar -->
     <div class="card flex justify-between items-center flex-wrap gap-4 py-4">
         <div>
             <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">
@@ -56,7 +55,6 @@
         </div>
 
         <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
-            <!-- Dropdown Chapter -->
             <select class="form-control" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.85rem;" 
                     onchange="if (this.value) window.location.href = this.value;">
                 @foreach($allApprovedChapters as $approvedCh)
@@ -67,7 +65,6 @@
                 @endforeach
             </select>
 
-            <!-- Navigasi Prev/Next -->
             @if($prevChapter)
                 <a href="{{ route('comics.chapters.show', [$comic->id, $prevChapter->chapter_number]) }}" class="btn btn-secondary btn-sm">
                     ← Prev
@@ -86,7 +83,6 @@
         </div>
     </div>
 
-    <!-- Konten Halaman Komik atau Layar Terkunci (Premium) -->
     @if($isUnlocked)
         @if(is_array($chapter->pages) && count($chapter->pages) > 0)
             <div class="reader-pages">
@@ -101,7 +97,6 @@
             </div>
         @endif
     @else
-        <!-- Gerbang Kunci Chapter Premium (Simulasi Koin) -->
         <div class="card text-center py-16 px-8 my-8">
             <div style="font-size: 3.5rem; margin-bottom: 1rem;"><x-icon name="lock" stroke-width="1.5" style="color: var(--text-muted)" /></div>
             <span class="badge badge-premium" style="font-size: 0.85rem; padding: 0.4rem 1rem; margin-bottom: 1rem;">
@@ -136,7 +131,6 @@
         </div>
     @endif
 
-    <!-- Bottom Navigation Bar -->
     <div class="card flex justify-center items-center flex-wrap gap-4 py-4">
         @if($prevChapter)
             <a href="{{ route('comics.chapters.show', [$comic->id, $prevChapter->chapter_number]) }}" class="btn btn-secondary btn-sm">

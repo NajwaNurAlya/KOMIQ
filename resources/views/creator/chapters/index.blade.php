@@ -16,7 +16,6 @@
     </div>
 </div>
 
-<!-- Statistik Status Chapter -->
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
     <div class="card" style="margin-bottom: 0; padding: 1.25rem;">
         <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Total Chapter</div>
@@ -40,7 +39,6 @@
     </div>
 </div>
 
-<!-- Daftar Chapter -->
 <div class="card" style="padding: 0; overflow: hidden;">
     <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
         <h3 style="font-size: 1.15rem; margin: 0;">Daftar Chapter Komik</h3>

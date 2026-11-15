@@ -27,7 +27,6 @@
 </div>
 
 <div style="display: grid; grid-template-columns: 1fr 340px; gap: 2rem; align-items: start;">
-    <!-- Bagian Kiri: Pratinjau Halaman Chapter Komik -->
     <div>
         <div class="card" style="padding: 1.25rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
             <div style="font-weight: 600; color: #fff;">
@@ -58,7 +57,6 @@
         @endif
     </div>
 
-    <!-- Bagian Kanan: Panel Aksi Moderasi Admin -->
     <div style="position: sticky; top: 5rem;">
         <div class="card">
             <h3 style="font-size: 1.15rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
@@ -88,7 +86,6 @@
             @endif
 
             @if($chapter->isPending())
-            <!-- Form Setujui (Approve) -->
             <form action="{{ route('admin.chapter-reviews.approve', $chapter->id) }}" method="POST" style="margin-bottom: 1rem;"
                   onsubmit="return confirm('Apakah Anda yakin ingin MENYETUJUI chapter ini? Chapter akan langsung dipublikasikan untuk pembaca.');">
                 @csrf
@@ -97,13 +94,11 @@
                 </button>
             </form>
 
-            <!-- Tombol Buka Form Tolak (Reject) -->
             <button type="button" class="btn btn-danger" style="width: 100%; justify-content: center; padding: 0.75rem;"
                     onclick="toggleRejectForm()">
                 <x-icon name="circle-x" /> Tolak Chapter (Reject)
             </button>
 
-            <!-- Form Tolak dengan Review Note -->
             <div id="reject-form-wrapper" style="margin-top: 1.25rem; display: {{ $errors->has('review_note') ? 'block' : 'none' }}; border-top: 1px dashed var(--border-color); padding-top: 1rem;">
                 <form action="{{ route('admin.chapter-reviews.reject', $chapter->id) }}" method="POST">
                     @csrf
@@ -122,7 +117,6 @@
             @endif
         </div>
 
-        <!-- Info Detail Chapter -->
         <div class="card" style="font-size: 0.875rem;">
             <h4 style="font-size: 0.95rem; margin-bottom: 0.75rem; color: var(--text-muted); text-transform: uppercase;">
                 Informasi Pengajuan
