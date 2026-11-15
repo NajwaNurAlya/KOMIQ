@@ -46,7 +46,6 @@
                 </div>
             </div>
 
-            <!-- Halaman Yang Ada Saat Ini -->
             @if(is_array($chapter->pages) && count($chapter->pages) > 0)
                 <div class="form-group" style="margin-top: 1rem;">
                     <label class="form-label">Halaman Komik Saat Ini ({{ count($chapter->pages) }} Halaman):</label>
@@ -69,7 +68,6 @@
                 </div>
             @endif
 
-            <!-- Tambah Halaman Baru -->
             <div class="form-group" style="margin-top: 1.5rem;">
                 <label for="pages" class="form-label">Unggah Halaman Baru (Opsional)</label>
                 <input type="file" id="pages" name="pages[]" multiple accept="image/jpeg,image/png,image/jpg,image/webp" class="form-control">
@@ -78,7 +76,6 @@
                 </small>
             </div>
 
-            <!-- Pengaturan Premium & Koin Simulasi -->
             <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; margin: 1.5rem 0;">
                 <div style="display: flex; align-items: center; justify-content: space-between;">
                     <div>

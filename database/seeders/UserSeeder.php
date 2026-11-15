@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $users = [
@@ -42,7 +39,7 @@ class UserSeeder extends Seeder
                 'name' => 'Irma Nurhayati',
                 'email' => 'irman4970@gmail.com',
                 'password' => Hash::make('password123'),
-                'role' => 'admin', // Irma sebagai PIC modul User/Auth diberi role admin untuk kemudahan presentasi
+                'role' => 'admin',
                 'coin_balance' => 500,
                 'is_active' => true,
             ],

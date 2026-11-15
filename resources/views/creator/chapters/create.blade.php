@@ -51,7 +51,6 @@
                 <div id="preview-container" style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem;"></div>
             </div>
 
-            <!-- Pengaturan Premium & Koin Simulasi -->
             <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; margin: 1.5rem 0;">
                 <div style="display: flex; align-items: center; justify-content: space-between;">
                     <div>
