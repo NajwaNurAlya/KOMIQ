@@ -12,7 +12,6 @@ class ComicController extends Controller
         $query = Comic::with('genres', 'user')
             ->where('is_hidden', false);
 
-        // Fitur Pencarian berdasarkan Judul atau Sinopsis
         if ($request->filled('search')) {
             $search = $request->search;
             query->where(function(q) use ($search) {
@@ -21,7 +20,6 @@ class ComicController extends Controller
             });
         }
 
-        // Fitur Filter berdasarkan Slug Genre
         if ($request->filled('genre')) {
             $genreSlug = $request->genre;
             query->whereHas('genres',function(q) use ($genreSlug) {
@@ -34,7 +32,6 @@ class ComicController extends Controller
         return response()->json($comics);
     }
 
-    // Detail Komik beserta Genre dan Chapter yang sudah disetujui (Approved)
     public function show($slug)
     {
         comic=Comic::with(['genres','user','chapters'=>function(q) {
@@ -46,7 +43,6 @@ class ComicController extends Controller
         return response()->json($comic);
     }
 
-    // Membuat Komik Baru (Kreator) dan Relasi Genre
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -67,7 +63,6 @@ class ComicController extends Controller
 
         comic=Comic::create(validated);
 
-        // Relasi Many to Many dengan Genre
         comic->genres()->attach(request->genre_ids);
 
         return response()->json([
@@ -76,7 +71,6 @@ class ComicController extends Controller
         ], 201);
     }
 
-    // Perbarui Data Komik dan Sinkronisasi Genre
     public function update(Request $request, Comic $comic)
     {
         if ($comic->user_id !== auth()->id() && auth()->user()->role !== 'admin') {[cite: 7, 8]
@@ -105,7 +99,6 @@ class ComicController extends Controller
 
         comic->update(validated);
 
-        // Sinkronisasi relasi pivot comic_genre
         comic->genres()->sync(request->genre_ids);
 
         return response()->json([
@@ -114,7 +107,6 @@ class ComicController extends Controller
         ]);
     }
 
-    // Hapus Komik
     public function destroy(Comic $comic)
     {
         if ($comic->user_id !== auth()->id() && auth()->user()->role !== 'admin') {

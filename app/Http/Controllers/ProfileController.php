@@ -10,23 +10,15 @@ use Illuminate\Validation\Rule;
 
 class ProfileController extends Controller
 {
-    /**
-     * Menampilkan profil pengguna saat ini.
-     */
     public function show()
     {
-        /** @var User $user */
         $user = Auth::user();
 
         return view('profile.show', compact('user'));
     }
 
-    /**
-     * Memperbarui informasi biodata (Nama & Email).
-     */
     public function update(Request $request)
     {
-        /** @var User $user */
         $user = Auth::user();
 
         $validated = $request->validate([
@@ -52,12 +44,8 @@ class ProfileController extends Controller
         return back()->with('success', 'Informasi profil berhasil diperbarui!');
     }
 
-    /**
-     * Memperbarui kata sandi pengguna.
-     */
     public function updatePassword(Request $request)
     {
-        /** @var User $user */
         $user = Auth::user();
 
         $request->validate([

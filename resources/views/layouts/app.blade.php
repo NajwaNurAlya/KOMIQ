@@ -175,11 +175,6 @@
                 <a href="{{ route('home') }}" class="text-2xl font-black font-brand tracking-wider text-white hover:text-white">KOMIQ<span class="text-red-500">.</span></a>
                 <nav class="hidden md:flex items-center gap-6 text-xs font-semibold">
                     <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-white' : 'text-zinc-400' }} hover:text-white">Beranda</a>
-                    @auth
-                        @if(auth()->user()->isAdmin())
-                            <a href="{{ route('admin.chapter-reviews.index') }}" class="{{ request()->routeIs('admin.*') ? 'text-white' : 'text-zinc-400' }} hover:text-white">Moderasi</a>
-                        @endif
-                    @endauth
                 </nav>
             </div>
 
@@ -191,6 +186,11 @@
 
             <div class="flex items-center gap-3">
                 @auth
+                    @if(auth()->user()->isAdmin())
+                        <a href="{{ route('admin.chapter-reviews.index') }}" class="btn btn-sm rounded-full bg-white text-zinc-900 hover:bg-zinc-200 hover:text-zinc-900"><x-icon name="shield" /> Admin</a>
+                    @elseif(auth()->user()->isKreator())
+                        <a href="{{ route('creator.hub') }}" class="btn btn-sm rounded-full bg-white text-zinc-900 hover:bg-zinc-200 hover:text-zinc-900"><x-icon name="palette" /> Kreator Hub</a>
+                    @endif
                     <span class="flex items-center gap-1.5 bg-[var(--bg-primary)] border border-[var(--border-color)] px-3 py-1 rounded-full text-xs font-bold text-amber-300">
                         <x-icon name="coins" /> {{ number_format(auth()->user()->coin_balance) }} Koin
                     </span>

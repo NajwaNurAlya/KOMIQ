@@ -11,7 +11,6 @@
     </p>
 </div>
 
-<!-- Tab Filter Status -->
 <div style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
     <a href="{{ route('admin.chapter-reviews.index', ['status' => 'pending']) }}" 
        class="btn {{ $statusFilter === 'pending' ? 'btn-primary' : 'btn-secondary' }} btn-sm" style="border-radius: 9999px;">
@@ -31,7 +30,6 @@
     </a>
 </div>
 
-<!-- Tabel Antrean Moderasi -->
 <div class="card" style="padding: 0; overflow: hidden;">
     @if($chapters->count() > 0)
         <div style="overflow-x: auto;">

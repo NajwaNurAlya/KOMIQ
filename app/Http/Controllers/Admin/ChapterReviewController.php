@@ -11,9 +11,6 @@ use Illuminate\View\View;
 
 class ChapterReviewController extends Controller
 {
-    /**
-     * Memastikan hanya pengguna dengan peran admin yang dapat mengakses fitur moderasi.
-     */
     protected function authorizeAdminAccess(): void
     {
         if (! auth()->check() || ! auth()->user()->isAdmin()) {
@@ -21,9 +18,6 @@ class ChapterReviewController extends Controller
         }
     }
 
-    /**
-     * Tampilkan antrean chapter yang memerlukan peninjauan oleh Admin.
-     */
     public function index(Request $request): View
     {
         $this->authorizeAdminAccess();
@@ -49,9 +43,6 @@ class ChapterReviewController extends Controller
         return view('admin.chapter-reviews.index', compact('chapters', 'counts', 'statusFilter'));
     }
 
-    /**
-     * Tampilkan detail chapter dan seluruh halamannya untuk diperiksa Admin.
-     */
     public function show(Chapter $chapter): View
     {
         $this->authorizeAdminAccess();
@@ -61,9 +52,6 @@ class ChapterReviewController extends Controller
         return view('admin.chapter-reviews.show', compact('chapter'));
     }
 
-    /**
-     * Setujui chapter (Approve) sehingga status menjadi approved dan siap dipublikasikan.
-     */
     public function approve(Request $request, Chapter $chapter): RedirectResponse
     {
         $this->authorizeAdminAccess();
@@ -86,9 +74,6 @@ class ChapterReviewController extends Controller
             ->with('success', "Chapter {$chapter->chapter_number} (\"{$chapter->title}\") pada komik \"{$chapter->comic?->title}\" telah DISETUJUI dan dipublikasikan.");
     }
 
-    /**
-     * Tolak chapter (Reject) dengan menyertakan review_note (catatan perbaikan untuk Kreator).
-     */
     public function reject(ReviewChapterRequest $request, Chapter $chapter): RedirectResponse
     {
         $this->authorizeAdminAccess();

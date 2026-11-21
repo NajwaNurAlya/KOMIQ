@@ -8,7 +8,7 @@ use Illuminate\View\View;
 
 class HomeController extends Controller
 {
-    public function __invoke(): View
+    public function index(): View
     {
         $komik = Comic::where('is_hidden', false)
             ->whereHas('chapters', fn ($q) => $q->approved())

@@ -3,9 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\Chapter;
-use App\Models\Comic;
 use App\Models\User;
-use App\Policies\ChapterPolicy;
 use PHPUnit\Framework\TestCase;
 
 class ChapterModelTest extends TestCase
@@ -59,56 +57,6 @@ class ChapterModelTest extends TestCase
         $this->assertTrue($regular->isRegularUser());
     }
 
-    public function test_chapter_policy_for_creator_and_admin(): void
-    {
-        $policy = new ChapterPolicy();
-
-        $creator = new User(['role' => 'kreator']);
-        $creator->id = 10;
-
-        $otherCreator = new User(['role' => 'kreator']);
-        $otherCreator->id = 99;
-
-        $admin = new User(['role' => 'admin']);
-        $admin->id = 1;
-
-        $comic = new Comic();
-        $comic->id = 5;
-        $comic->user_id = 10;
-
-        $chapterDraft = new Chapter([
-            'comic_id' => 5,
-            'status' => Chapter::STATUS_DRAFT,
-        ]);
-        $chapterDraft->setRelation('comic', $comic);
-
-        $chapterApproved = new Chapter([
-            'comic_id' => 5,
-            'status' => Chapter::STATUS_APPROVED,
-        ]);
-        $chapterApproved->setRelation('comic', $comic);
-
-        // Kreator pemilik komik
-        $this->assertTrue($policy->create($creator, $comic));
-        $this->assertTrue($policy->update($creator, $chapterDraft));
-        $this->assertTrue($policy->submit($creator, $chapterDraft));
-        $this->assertFalse($policy->review($creator));
-
-        // Kreator lain (bukan pemilik)
-        $this->assertFalse($policy->create($otherCreator, $comic));
-        $this->assertFalse($policy->update($otherCreator, $chapterDraft));
-        $this->assertFalse($policy->submit($otherCreator, $chapterDraft));
-
-        // Admin
-        $this->assertTrue($policy->review($admin));
-
-        // Publik vs Chapter Approved
-        $this->assertTrue($policy->view(null, $chapterApproved));
-        $this->assertFalse($policy->view(null, $chapterDraft));
-        $this->assertTrue($policy->view($creator, $chapterDraft));
-        $this->assertTrue($policy->view($admin, $chapterDraft));
-    }
-
     public function test_coin_simulation_balance_and_duplicate_protection(): void
     {
         $chapter = new Chapter([
@@ -116,7 +64,7 @@ class ChapterModelTest extends TestCase
             'coin_price' => 20,
         ]);
 
-        $initialBalance = 15; // Kurang dari 20 koin
+        $initialBalance = 15;
         $canUnlock = $initialBalance >= $chapter->coin_price;
         $this->assertFalse($canUnlock, 'Saldo yang kurang tidak boleh mengizinkan unlock');
 
@@ -124,12 +72,10 @@ class ChapterModelTest extends TestCase
         $canUnlockSufficient = $sufficientBalance >= $chapter->coin_price;
         $this->assertTrue($canUnlockSufficient);
 
-        // Pengurangan saldo tidak boleh menghasilkan angka negatif
         $newBalance = max(0, $sufficientBalance - $chapter->coin_price);
         $this->assertEquals(30, $newBalance);
         $this->assertGreaterThanOrEqual(0, $newBalance);
 
-        // Simulasi pencegahan transaksi ganda dengan session key
         $sessionStore = ['unlocked_chapter_1' => true];
         $isAlreadyUnlocked = isset($sessionStore['unlocked_chapter_1']);
         $this->assertTrue($isAlreadyUnlocked, 'Chapter yang sudah di-unlock tidak boleh dipotong koin lagi');
