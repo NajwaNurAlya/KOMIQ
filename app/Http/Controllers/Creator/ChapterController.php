@@ -97,7 +97,7 @@ class ChapterController extends Controller
             ->with('success', "Chapter {$chapter->chapter_number} (\"{$chapter->title}\") berhasil dibuat sebagai DRAFT. Silakan tinjau dan kirim untuk pemeriksaan Admin.");
     }
 
-    public function edit(Comic $comic, Chapter $chapter): View
+    public function edit(Comic $comic, Chapter $chapter): View|RedirectResponse
     {
         if ($chapter->comic_id !== $comic->id) {
             abort(404, 'Chapter tidak ditemukan pada komik ini.');
@@ -129,10 +129,18 @@ class ChapterController extends Controller
         $validated = $request->validated();
         $chapterNumber = (int) $validated['chapter_number'];
 
-        $pages = $request->input('existing_pages', []);
-        if (! is_array($pages)) {
-            $pages = [];
+        $oldPages = is_array($chapter->pages) ? $chapter->pages : [];
+        $keptPages = $request->input('existing_pages', []);
+        if (! is_array($keptPages)) {
+            $keptPages = [];
         }
+
+        $removedPages = array_diff($oldPages, $keptPages);
+        foreach ($removedPages as $removedFile) {
+            Storage::disk('public')->delete($removedFile);
+        }
+
+        $pages = array_values($keptPages);
 
         if ($request->hasFile('pages')) {
             $startIndex = count($pages) + 1;
@@ -145,6 +153,10 @@ class ChapterController extends Controller
                 $pages[] = $path;
                 $startIndex++;
             }
+        }
+
+        if (empty($pages)) {
+            return back()->with('error', 'Chapter harus memiliki minimal 1 halaman gambar.');
         }
 
         $chapter->update([

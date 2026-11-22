@@ -49,7 +49,7 @@ Route::prefix('comics/{comic}')->group(function () {
 });
 
 Route::get('/creator', [CreatorHubController::class, 'index'])
-    ->middleware(['auth', 'role:kreator'])
+    ->middleware(['auth', 'role:kreator,admin'])
     ->name('creator.hub');
 
 Route::prefix('creator/comics/{comic}')

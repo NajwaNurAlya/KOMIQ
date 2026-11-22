@@ -3,13 +3,19 @@
 namespace App\Http\Controllers\Creator;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comic;
 use Illuminate\View\View;
 
 class HubController extends Controller
 {
     public function index(): View
     {
-        $comics = auth()->user()->comics()->withCount('chapters')->orderBy('title')->get();
+        $user = auth()->user();
+        if ($user && $user->isAdmin()) {
+            $comics = Comic::withCount('chapters')->orderBy('title')->get();
+        } else {
+            $comics = $user ? $user->comics()->withCount('chapters')->orderBy('title')->get() : collect();
+        }
 
         return view('creator.hub', compact('comics'));
     }
