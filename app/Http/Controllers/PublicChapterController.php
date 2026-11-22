@@ -51,6 +51,8 @@ class PublicChapterController extends Controller
             ? (int) auth()->user()->coin_balance
             : (int) session('simulated_coin_balance', 50);
 
+        $comments = $chapter->comments()->where('is_hidden', false)->with('user')->latest()->get();
+
         return view('chapters.reader', compact(
             'comic',
             'chapter',
@@ -60,7 +62,8 @@ class PublicChapterController extends Controller
             'isUnlocked',
             'isCreator',
             'isAdmin',
-            'userCoinBalance'
+            'userCoinBalance',
+            'comments'
         ));
     }
 

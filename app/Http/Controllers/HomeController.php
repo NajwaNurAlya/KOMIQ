@@ -24,9 +24,6 @@ class HomeController extends Controller
             'perGenre' => $genres->mapWithKeys(fn ($g) => [
                 $g->id => $komik->filter(fn ($c) => $c->genres->contains($g))->take(6),
             ]),
-            'jadwal' => $komik->where('status', 'ongoing')
-                ->groupBy(fn ($c) => $c->chapters->max('published_at')?->dayOfWeekIso),
-            'tamat' => $komik->where('status', 'completed'),
         ]);
     }
 }

@@ -1,5 +1,5 @@
 @props(['comic', 'info'])
-<a href="{{ route('comics.chapters.show', [$comic->id, $comic->chapters->first()->chapter_number]) }}" class="group block min-w-0 text-zinc-100 hover:text-white">
+<a href="{{ route('comics.show', $comic->id) }}" class="group block min-w-0 text-zinc-100 hover:text-white">
     <div class="aspect-[3/4] overflow-hidden rounded-md bg-[var(--bg-card)]">
         @if($comic->cover_image)
             <img src="{{ asset('storage/' . $comic->cover_image) }}" alt="{{ $comic->title }}" loading="lazy"

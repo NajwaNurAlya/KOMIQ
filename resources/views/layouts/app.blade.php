@@ -175,14 +175,16 @@
                 <a href="{{ route('home') }}" class="text-2xl font-black font-brand tracking-wider text-white hover:text-white">KOMIQ<span class="text-red-500">.</span></a>
                 <nav class="hidden md:flex items-center gap-6 text-xs font-semibold">
                     <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-white' : 'text-zinc-400' }} hover:text-white">Beranda</a>
+                    <a href="{{ route('comics.index') }}" class="{{ request()->routeIs('comics.index') ? 'text-white' : 'text-zinc-400' }} hover:text-white">Jelajah</a>
                 </nav>
             </div>
 
-            <div class="hidden sm:flex flex-1 max-w-xs mx-4 relative">
-                <input type="text" placeholder="Cari..." disabled
-                    class="w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-full px-4 py-1.5 text-xs text-zinc-400 placeholder-zinc-600 cursor-default">
-                <x-icon name="search" class="absolute right-3 top-2 text-zinc-600 text-xs" />
-            </div>
+            <form action="{{ route('comics.index') }}" method="GET" class="hidden sm:flex flex-1 max-w-xs mx-4 relative">
+                <input type="search" name="search" value="{{ request('search') }}" placeholder="Cari..."
+                    class="w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-full px-4 py-1.5 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-zinc-500">
+                <button type="submit" class="absolute right-3 top-1.5 text-zinc-500 hover:text-white text-xs" aria-label="Cari"><x-icon name="search" /></button>
+            </form>
+            <a href="{{ route('comics.index') }}" class="sm:hidden text-zinc-300 hover:text-white" aria-label="Jelajah dan cari komik"><x-icon name="search" size="1.25em" /></a>
 
             <div class="flex items-center gap-3">
                 @auth
@@ -191,11 +193,11 @@
                     @elseif(auth()->user()->isKreator())
                         <a href="{{ route('creator.hub') }}" class="btn btn-sm rounded-full bg-white text-zinc-900 hover:bg-zinc-200 hover:text-zinc-900"><x-icon name="palette" /> Kreator Hub</a>
                     @endif
-                    <span class="flex items-center gap-1.5 bg-[var(--bg-primary)] border border-[var(--border-color)] px-3 py-1 rounded-full text-xs font-bold text-amber-300">
-                        <x-icon name="coins" /> {{ number_format(auth()->user()->coin_balance) }} Koin
-                    </span>
+                    <a href="{{ route('coins.index') }}" title="Top Up Koin" class="flex shrink-0 items-center gap-1.5 whitespace-nowrap bg-[var(--bg-primary)] border border-[var(--border-color)] px-3 py-1 rounded-full text-xs font-bold text-amber-300 hover:border-amber-400 hover:text-amber-200">
+                        <x-icon name="coins" /> {{ number_format(auth()->user()->coin_balance) }}<span class="hidden sm:inline">Koin</span> <x-icon name="plus" />
+                    </a>
                     <a href="{{ route('profile.show') }}" class="flex items-center gap-2 text-xs font-bold text-white hover:text-white">
-                        <img src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}" class="w-8 h-8 rounded-full object-cover border border-red-600">
+                        <img src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}" class="w-8 h-8 shrink-0 rounded-full object-cover border border-red-600">
                         <span class="hidden md:inline">{{ auth()->user()->name }}</span>
                     </a>
                     <form action="{{ route('logout') }}" method="POST">
@@ -251,10 +253,12 @@
         @yield('content')
     </main>
 
-    <footer class="border-t border-[var(--border-color)] bg-[var(--bg-secondary)] py-6 text-center text-xs text-zinc-400">
-        <p class="font-bold text-zinc-300">KOMIQ &copy; {{ date('Y') }}</p>
-    </footer>
-    <div class="h-1.5 bg-red-600"></div>
+    @sectionMissing('tanpa-footer')
+        <footer class="border-t border-[var(--border-color)] bg-[var(--bg-secondary)] py-6 text-center text-xs text-zinc-400">
+            <p class="font-bold text-zinc-300">KOMIQ &copy; {{ date('Y') }}</p>
+        </footer>
+        <div class="h-1.5 bg-red-600"></div>
+    @endif
 
     @yield('scripts')
 </body>

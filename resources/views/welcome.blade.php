@@ -16,11 +16,6 @@
 @endsection
 
 @section('content')
-@php
-    $hari = [1 => 'SEN', 2 => 'SEL', 3 => 'RAB', 4 => 'KAM', 5 => 'JUM', 6 => 'SAB', 7 => 'MIN'];
-    $hariIni = now()->dayOfWeekIso;
-@endphp
-
 @if($terbaru->isEmpty())
     <div class="card py-16 text-center text-zinc-400">Belum ada komik yang terbit.</div>
 @else
@@ -65,30 +60,6 @@
                 <x-comic-card :comic="$comic" :info="$comic->status === 'completed' ? 'Tamat' : 'Berjalan'" />
             @endforeach
         </div>
-    </section>
-
-    <section>
-        <h2 class="mb-4 text-lg">Jadwal Update</h2>
-        <div class="mb-4 flex gap-2 overflow-x-auto pb-1">
-            @foreach($hari as $n => $label)
-                <button type="button" class="pill {{ $n === $hariIni ? 'aktif' : '' }}" data-tab="hari:{{ $n }}">{{ $label }}</button>
-            @endforeach
-            <button type="button" class="pill" data-tab="hari:tamat">TAMAT</button>
-        </div>
-        @foreach($hari + ['tamat' => null] as $n => $label)
-            @php $daftar = $n === 'tamat' ? $tamat : $jadwal->get($n, collect()); @endphp
-            <div data-panel="hari:{{ $n }}" @if($n !== $hariIni) hidden @endif>
-                @if($daftar->isEmpty())
-                    <p class="py-10 text-center text-sm text-zinc-500">Belum ada komik yang update di hari ini.</p>
-                @else
-                    <div class="grid grid-cols-3 gap-x-2 gap-y-6 md:grid-cols-6">
-                        @foreach($daftar as $comic)
-                            <x-comic-card :comic="$comic" :info="'Ch. ' . $comic->chapters->last()->chapter_number" />
-                        @endforeach
-                    </div>
-                @endif
-            </div>
-        @endforeach
     </section>
 </div>
 @endif

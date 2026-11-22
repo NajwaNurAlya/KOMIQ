@@ -1,46 +1,73 @@
+<?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Comic;
+use App\Models\Genre;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class ComicController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $query = Comic::with('genres', 'user')
-            ->where('is_hidden', false);
+            ->withCount(['chapters' => fn ($q) => $q->approved()])
+            ->where('is_hidden', false)
+            ->whereHas('chapters', fn ($q) => $q->approved());
 
         if ($request->filled('search')) {
             $search = $request->search;
-            query->where(function(q) use ($search) {
-                $q->where('title', 'LIKE', "%{$search}%")
-                  ->orWhere('synopsis', 'LIKE', "%{$search}%");
+            $query->where(function ($q) use ($search) {
+                $q->whereLike('title', "%{$search}%")
+                  ->orWhereLike('synopsis', "%{$search}%");
             });
         }
 
         if ($request->filled('genre')) {
             $genreSlug = $request->genre;
-            query->whereHas('genres',function(q) use ($genreSlug) {
+            $query->whereHas('genres', function ($q) use ($genreSlug) {
                 $q->where('slug', $genreSlug);
             });
         }
 
-        $comics = $query->latest()->paginate(12);
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
 
-        return response()->json($comics);
+        if ($request->filled('kreator')) {
+            $query->where('user_id', $request->kreator);
+        }
+
+        return view('comics.index', [
+            'comics' => $query->orderBy('title')->paginate(18)->withQueryString(),
+            'genres' => Genre::orderBy('name')->get(),
+            'kreators' => User::whereHas('comics')->orderBy('name')->get(),
+        ]);
     }
 
-    public function show($slug)
+    public function show(Comic $comic): View
     {
-        comic=Comic::with(['genres','user','chapters'=>function(q) {
-            $q->where('status', 'approved')->orderBy('chapter_number', 'asc');
-        }])->where('slug', $slug)
-           ->where('is_hidden', false)
-           ->firstOrFail();
+        abort_if($comic->is_hidden, 404);
 
-        return response()->json($comic);
+        $comic->load(['genres', 'chapters' => fn ($q) => $q->approved()->orderBy('chapter_number')]);
+
+        $rekomendasi = Comic::where('id', '!=', $comic->id)
+            ->where('is_hidden', false)
+            ->whereHas('chapters', fn ($q) => $q->approved())
+            ->with('genres')
+            ->withCount([
+                'chapters' => fn ($q) => $q->approved(),
+                'genres as genre_sama' => fn ($q) => $q->whereIn('genres.id', $comic->genres->pluck('id')),
+            ])
+            ->orderByDesc('genre_sama')
+            ->take(5)
+            ->get();
+
+        return view('comics.show', compact('comic', 'rekomendasi'));
     }
 
     public function store(Request $request)
@@ -59,11 +86,11 @@ class ComicController extends Controller
         }
 
         $validated['user_id'] = auth()->id();
-        validated['slug']=Str::slug(validated['title']) . '-' . Str::random(5);
+        $validated['slug'] = Str::slug($validated['title']) . '-' . Str::random(5);
 
-        comic=Comic::create(validated);
+        $comic = Comic::create($validated);
 
-        comic->genres()->attach(request->genre_ids);
+        $comic->genres()->attach($request->genre_ids);
 
         return response()->json([
             'message' => 'Komik berhasil dibuat',
@@ -73,7 +100,7 @@ class ComicController extends Controller
 
     public function update(Request $request, Comic $comic)
     {
-        if ($comic->user_id !== auth()->id() && auth()->user()->role !== 'admin') {[cite: 7, 8]
+        if ($comic->user_id !== auth()->id() && auth()->user()->role !== 'admin') {
             return response()->json(['message' => 'Akses ditolak'], 403);
         }
 
@@ -94,12 +121,12 @@ class ComicController extends Controller
         }
 
         if ($comic->title !== $request->title) {
-            validated['slug']=Str::slug(request->title) . '-' . Str::random(5);
+            $validated['slug'] = Str::slug($request->title) . '-' . Str::random(5);
         }
 
-        comic->update(validated);
+        $comic->update($validated);
 
-        comic->genres()->sync(request->genre_ids);
+        $comic->genres()->sync($request->genre_ids);
 
         return response()->json([
             'message' => 'Komik berhasil diperbarui',
@@ -124,4 +151,3 @@ class ComicController extends Controller
         ]);
     }
 }
-
