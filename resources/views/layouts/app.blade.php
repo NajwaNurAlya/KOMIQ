@@ -201,7 +201,6 @@
                         <span class="hidden md:inline">{{ auth()->user()->name }}</span>
                     </a>
                     <form action="{{ route('logout') }}" method="POST">
-                        @csrf
                         <button type="submit" class="btn btn-secondary btn-sm">Keluar</button>
                     </form>
                 @else

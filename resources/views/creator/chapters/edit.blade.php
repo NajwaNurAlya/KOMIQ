@@ -30,7 +30,6 @@
 
     <div class="card">
         <form action="{{ route('creator.comics.chapters.update', [$comic->id, $chapter->id]) }}" method="POST" enctype="multipart/form-data">
-            @csrf
             @method('PUT')
 
             <div style="display: grid; grid-template-columns: 140px 1fr; gap: 1rem;">

@@ -16,7 +16,6 @@
 
     <div class="card">
         <form action="{{ route('creator.comics.chapters.store', $comic->id) }}" method="POST" enctype="multipart/form-data">
-            @csrf
             <input type="hidden" name="comic_id" value="{{ $comic->id }}">
 
             <div style="display: grid; grid-template-columns: 140px 1fr; gap: 1rem;">

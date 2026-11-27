@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Pengaturan Pengguna - KOMIQ')
+@section('inline-errors', true)
 
 @section('content')
 <div class="border-b border-[var(--border-color)] pb-4 mb-6">
@@ -12,27 +13,18 @@
     <aside class="md:col-span-4 lg:col-span-3 bg-[var(--bg-secondary)] border-r border-[var(--border-color)] p-4 space-y-1">
         <div class="px-3 py-2 text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-2">Menu Akun</div>
 
-        <button type="button" onclick="switchTab('tab-profile')" id="btn-tab-profile"
-            class="tab-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-red-600/15 border border-red-800/60 text-red-400 transition">
-            <x-icon name="user" class="text-sm" />
-            <span>Informasi Akun</span>
-        </button>
-
-        <button type="button" onclick="switchTab('tab-security')" id="btn-tab-security"
-            class="tab-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition">
-            <x-icon name="lock" class="text-sm" />
-            <span>Keamanan & Sandi</span>
-        </button>
-
-        <button type="button" onclick="switchTab('tab-coins')" id="btn-tab-coins"
-            class="tab-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition">
-            <x-icon name="coins" class="text-sm" />
-            <span>Saldo & Koin</span>
-        </button>
+        @foreach(['biodata' => ['user', 'Informasi Akun'], 'keamanan' => ['lock', 'Keamanan & Sandi'], 'koin' => ['coins', 'Saldo & Koin']] as $kunci => [$ikon, $label])
+            <a href="{{ route('profile.show', $kunci === 'biodata' ? null : $kunci) }}"
+                class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold border transition {{ $tab === $kunci ? 'bg-red-600/15 border-red-800/60 text-red-400 hover:text-red-400' : 'border-transparent text-zinc-400 hover:text-white hover:bg-zinc-800/60' }}">
+                <x-icon name="{{ $ikon }}" class="text-sm" />
+                <span>{{ $label }}</span>
+            </a>
+        @endforeach
     </aside>
 
     <section class="md:col-span-8 lg:col-span-9 p-6 lg:p-8">
-        <div id="tab-profile" class="tab-content space-y-6">
+        @if($tab === 'biodata')
+        <div class="space-y-6">
             <div class="border-b border-[var(--border-color)] pb-3">
                 <h2 class="text-lg font-bold text-white">Informasi Akun</h2>
                 <p class="text-xs text-zinc-400">Atur nama pengguna, email, dan status visibilitas akun Anda.</p>
@@ -44,7 +36,6 @@
             </div>
 
             <form action="{{ route('profile.update') }}" method="POST" class="space-y-4 max-w-lg mx-auto">
-                @csrf
                 @method('PUT')
 
                 <div>
@@ -98,15 +89,14 @@
                 <button type="submit" class="btn btn-primary w-full">Simpan Perubahan Profil</button>
             </form>
         </div>
-
-        <div id="tab-security" class="tab-content hidden space-y-6">
+        @elseif($tab === 'keamanan')
+        <div class="space-y-6">
             <div class="border-b border-[var(--border-color)] pb-3">
                 <h2 class="text-lg font-bold text-white">Keamanan & Kata Sandi</h2>
                 <p class="text-xs text-zinc-400">Pastikan akun Anda terlindungi dengan mengganti sandi secara berkala.</p>
             </div>
 
             <form action="{{ route('profile.password') }}" method="POST" class="space-y-4 max-w-lg mx-auto">
-                @csrf
                 @method('PUT')
 
                 <div>
@@ -136,8 +126,8 @@
                 <button type="submit" class="btn btn-secondary w-full">Perbarui Kata Sandi</button>
             </form>
         </div>
-
-        <div id="tab-coins" class="tab-content hidden space-y-6">
+        @else
+        <div class="space-y-6">
             <div class="border-b border-[var(--border-color)] pb-3">
                 <h2 class="text-lg font-bold text-white">Saldo & Koin Akun</h2>
                 <p class="text-xs text-zinc-400">Informasi saldo koin simulasi untuk membuka Chapter Premium komik.</p>
@@ -152,28 +142,10 @@
                 <p class="text-xs text-zinc-400">
                     Koin dapat digunakan untuk membuka bab premium komik favorit Anda yang dikelola oleh tim KOMIQ.
                 </p>
+                <a href="{{ route('coins.index') }}" class="btn btn-primary"><x-icon name="coins" /> Top Up Koin</a>
             </div>
         </div>
+        @endif
     </section>
 </div>
-@endsection
-
-@section('scripts')
-<script>
-    function switchTab(tabId) {
-        document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.classList.remove('bg-red-600/15', 'border', 'border-red-800/60', 'text-red-400');
-            btn.classList.add('text-zinc-400');
-        });
-
-        document.getElementById(tabId)?.classList.remove('hidden');
-
-        const activeBtn = document.getElementById('btn-' + tabId);
-        if (activeBtn) {
-            activeBtn.classList.remove('text-zinc-400');
-            activeBtn.classList.add('bg-red-600/15', 'border', 'border-red-800/60', 'text-red-400');
-        }
-    }
-</script>
 @endsection

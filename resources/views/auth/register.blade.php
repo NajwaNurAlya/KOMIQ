@@ -14,7 +14,6 @@
     </div>
 
     <form action="{{ route('register') }}" method="POST" class="space-y-4">
-        @csrf
 
         <div>
             <label for="name" class="form-label">Nama Lengkap (Username)</label>

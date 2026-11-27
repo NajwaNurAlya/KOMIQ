@@ -10,11 +10,12 @@ use Illuminate\Validation\Rule;
 
 class ProfileController extends Controller
 {
-    public function show()
+    public function show(?string $tab = null)
     {
         $user = Auth::user();
+        $tab = $tab ?? 'biodata';
 
-        return view('profile.show', compact('user'));
+        return view('profile.show', compact('user', 'tab'));
     }
 
     public function update(Request $request)

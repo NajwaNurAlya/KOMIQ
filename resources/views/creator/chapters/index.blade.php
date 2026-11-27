@@ -92,7 +92,6 @@
                                 <div style="display: inline-flex; gap: 0.5rem; align-items: center; justify-content: flex-end;">
                                     @if($chapter->canBeSubmitted())
                                         <form action="{{ route('creator.comics.chapters.submit', [$comic->id, $chapter->id]) }}" method="POST" onsubmit="return confirm('Kirim chapter ini ke Admin untuk ditinjau?');">
-                                            @csrf
                                             <button type="submit" class="btn btn-success btn-sm" title="Kirim untuk ditinjau Admin">
                                                 <x-icon name="send" /> Ajukan
                                             </button>
@@ -104,7 +103,6 @@
                                             <x-icon name="pencil" /> Edit
                                         </a>
                                         <form action="{{ route('creator.comics.chapters.destroy', [$comic->id, $chapter->id]) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus chapter ini? Tindakan tidak dapat dibatalkan.');">
-                                            @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm">
                                                 <x-icon name="trash-2" />

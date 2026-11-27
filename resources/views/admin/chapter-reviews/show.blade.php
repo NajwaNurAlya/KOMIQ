@@ -88,7 +88,6 @@
             @if($chapter->isPending())
             <form action="{{ route('admin.chapter-reviews.approve', $chapter->id) }}" method="POST" style="margin-bottom: 1rem;"
                   onsubmit="return confirm('Apakah Anda yakin ingin MENYETUJUI chapter ini? Chapter akan langsung dipublikasikan untuk pembaca.');">
-                @csrf
                 <button type="submit" class="btn btn-success" style="width: 100%; justify-content: center; padding: 0.75rem;">
                     <x-icon name="circle-check" /> Setujui Chapter (Approve)
                 </button>
@@ -101,7 +100,6 @@
 
             <div id="reject-form-wrapper" style="margin-top: 1.25rem; display: {{ $errors->has('review_note') ? 'block' : 'none' }}; border-top: 1px dashed var(--border-color); padding-top: 1rem;">
                 <form action="{{ route('admin.chapter-reviews.reject', $chapter->id) }}" method="POST">
-                    @csrf
                     <div class="form-group">
                         <label for="review_note" class="form-label" style="color: #f87171;">
                             Catatan Evaluasi / Alasan Penolakan *

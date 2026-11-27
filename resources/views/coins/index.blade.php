@@ -20,7 +20,6 @@
     </div>
 
     <form action="{{ route('coins.store') }}" method="POST">
-        @csrf
         <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
             @foreach(\App\Http\Controllers\CoinController::PAKET as $kode => $paket)
                 <label class="cursor-pointer rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] p-4 text-center hover:border-zinc-500 has-[:checked]:border-red-500 has-[:checked]:bg-red-500/10">

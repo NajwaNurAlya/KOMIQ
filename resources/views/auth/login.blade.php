@@ -14,7 +14,6 @@
     </div>
 
     <form action="{{ route('login') }}" method="POST" class="space-y-4">
-        @csrf
 
         <div>
             <label for="email" class="form-label">Email</label>

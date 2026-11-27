@@ -57,7 +57,6 @@
 
                 @if(($userCoinBalance ?? 0) >= $chapter->coin_price)
                     <form action="{{ route('comics.chapters.unlock', [$comic->id, $chapter->id]) }}" method="POST">
-                        @csrf
                         <button type="submit" class="btn btn-primary">
                             <x-icon name="coins" /> Buka Chapter dengan {{ $chapter->coin_price }} Koin (Simulasi)
                         </button>
@@ -158,7 +157,6 @@
                                 @if(auth()->id() === $comment->user_id || auth()->user()->isAdmin())
                                     <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" class="ml-auto"
                                           onsubmit="return confirm('Hapus komentar ini?')">
-                                        @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-zinc-500 hover:text-red-400" aria-label="Hapus komentar"><x-icon name="trash-2" /></button>
                                     </form>
@@ -177,7 +175,6 @@
             <div class="shrink-0 border-t border-[var(--border-color)] px-5 py-4">
                 @auth
                     <form action="{{ route('comics.chapters.comments.store', [$comic->id, $chapter->id]) }}" method="POST">
-                        @csrf
                         <textarea name="content" rows="2" maxlength="1000" placeholder="Tulis komentar..."
                             class="form-control @error('content') is-invalid @enderror">{{ old('content') }}</textarea>
                         @error('content')

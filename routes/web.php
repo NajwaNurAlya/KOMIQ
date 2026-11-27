@@ -33,7 +33,8 @@ Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'show'])
+    Route::get('/profile/{tab?}', [ProfileController::class, 'show'])
+        ->whereIn('tab', ['keamanan', 'koin'])
         ->name('profile.show');
 
     Route::put('/profile', [ProfileController::class, 'update'])
