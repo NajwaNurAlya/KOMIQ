@@ -82,7 +82,15 @@ Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])
 Route::get('/creator', [CreatorHubController::class, 'index'])
     ->middleware(['auth', 'role:kreator,admin'])
     ->name('creator.hub');
-Route::middleware(['auth', 'role:kreator,admin'])->prefix('creator')->name('creator.')->group(function () {
+
+Route::prefix('creator')
+    ->name('creator.')
+    ->middleware(['auth', 'role:kreator,admin'])
+    ->group(function () {
+        Route::resource('comics', CreatorComicController::class)
+            ->except(['show']);
+    });
+  Route::middleware(['auth', 'role:kreator,admin'])->prefix('creator')->name('creator.')->group(function () {
     Route::get('/', [CreatorHubController::class, 'index'])->name('hub');
 
     Route::resource('comics', CreatorComicController::class);
