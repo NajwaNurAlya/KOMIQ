@@ -79,7 +79,7 @@ Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])
     ->name('comments.destroy');
 
 Route::get('/creator', [CreatorHubController::class, 'index'])
-    ->middleware(['auth', 'role:kreator'])
+    ->middleware(['auth', 'role:kreator,admin'])
     ->name('creator.hub');
 
 Route::prefix('creator/comics/{comic}')

@@ -12,10 +12,15 @@
     <div class="grid grid-cols-2 gap-x-3 gap-y-6 sm:grid-cols-3 md:grid-cols-5">
         @foreach($comics as $comic)
             <a href="{{ route('creator.comics.chapters.index', $comic->id) }}" class="group block min-w-0 text-zinc-100 hover:text-white">
-                <div class="aspect-[3/4] overflow-hidden rounded-md bg-[var(--bg-card)]">
+                <div class="aspect-[3/4] overflow-hidden rounded-md bg-[var(--bg-card)] border border-[var(--border-color)] flex items-center justify-center">
                     @if($comic->cover_image)
                         <img src="{{ asset('storage/' . $comic->cover_image) }}" alt="{{ $comic->title }}" loading="lazy"
                             class="h-full w-full object-cover transition duration-300 group-hover:scale-105">
+                    @else
+                        <div class="text-zinc-600 flex flex-col items-center">
+                            <x-icon name="image" class="text-3xl mb-1" />
+                            <span class="text-[10px] text-zinc-500">Tanpa Sampul</span>
+                        </div>
                     @endif
                 </div>
                 <p class="mt-2 truncate text-sm font-semibold">{{ $comic->title }}</p>

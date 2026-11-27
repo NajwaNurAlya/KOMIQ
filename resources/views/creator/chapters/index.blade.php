@@ -5,7 +5,9 @@
 @section('content')
 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
     <div>
-        <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.25rem;">Manajemen Komik Kreator</div>
+        <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.25rem;">
+            <a href="{{ route('creator.hub') }}" style="color: var(--text-muted); text-decoration: none;">← Kembali ke Kreator Hub</a>
+        </div>
         <h1 style="font-size: 2rem;">{{ $comic->title ?? 'Komik #' . $comic->id }}</h1>
         <p style="color: var(--text-secondary); margin-top: 0.25rem;">Kelola seluruh chapter, pantau status peninjauan admin, dan publikasikan karya Anda.</p>
     </div>

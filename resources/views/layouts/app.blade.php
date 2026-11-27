@@ -190,6 +190,7 @@
                 @auth
                     @if(auth()->user()->isAdmin())
                         <a href="{{ route('admin.chapter-reviews.index') }}" class="btn btn-sm rounded-full bg-white text-zinc-900 hover:bg-zinc-200 hover:text-zinc-900"><x-icon name="shield" /> Admin</a>
+                        <a href="{{ route('creator.hub') }}" class="btn btn-sm rounded-full btn-secondary"><x-icon name="palette" /> Kreator Hub</a>
                     @elseif(auth()->user()->isKreator())
                         <a href="{{ route('creator.hub') }}" class="btn btn-sm rounded-full bg-white text-zinc-900 hover:bg-zinc-200 hover:text-zinc-900"><x-icon name="palette" /> Kreator Hub</a>
                     @endif
