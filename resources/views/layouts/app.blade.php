@@ -175,6 +175,11 @@
                 <a href="{{ route('home') }}" class="text-2xl font-black font-brand tracking-wider text-white hover:text-white">KOMIQ<span class="text-red-500">.</span></a>
                 <nav class="hidden md:flex items-center gap-6 text-xs font-semibold">
                     <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-white' : 'text-zinc-400' }} hover:text-white">Beranda</a>
+                    @auth
+                        @if(auth()->user()->isKreator() || auth()->user()->isAdmin())
+                            <a href="{{ route('creator.comics.index') }}" class="{{ request()->routeIs('creator.comics.*') ? 'text-white' : 'text-zinc-400' }} hover:text-white">Komik Saya</a>
+                        @endif
+                    @endauth
                     <a href="{{ route('comics.index') }}" class="{{ request()->routeIs('comics.index') ? 'text-white' : 'text-zinc-400' }} hover:text-white">Jelajah</a>
                 </nav>
             </div>
