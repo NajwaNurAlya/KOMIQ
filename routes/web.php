@@ -75,36 +75,23 @@ Route::prefix('comics/{comic}')->group(function () {
         ->name('comics.chapters.comments.store');
 });
 
-Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])
     ->middleware('auth')
     ->name('comments.destroy');
+    
+    Route::get('/creator', [CreatorHubController::class, 'index'])
+        ->middleware(['auth', 'role:kreator,admin'])
+        ->name('creator.hub');
+        
+    Route::prefix('creator')
+        ->name('creator.')
+        ->middleware(['auth', 'role:kreator,admin'])
+        ->group(function () {
+            Route::resource('comics', CreatorComicController::class)
+                ->except(['show']);
+            });
 
-Route::get('/creator', [CreatorHubController::class, 'index'])
-    ->middleware(['auth', 'role:kreator,admin'])
-    ->name('creator.hub');
-
-Route::prefix('creator')
-    ->name('creator.')
-    ->middleware(['auth', 'role:kreator,admin'])
-    ->group(function () {
-        Route::resource('comics', CreatorComicController::class)
-            ->except(['show']);
-    });
-  Route::middleware(['auth', 'role:kreator,admin'])->prefix('creator')->name('creator.')->group(function () {
-    Route::get('/', [CreatorHubController::class, 'index'])->name('hub');
-
-    Route::resource('comics', CreatorComicController::class);
-
-    Route::prefix('comics/{comic}')->name('comics.')->group(function () {
-        Route::resource('chapters', CreatorChapterController::class)
-            ->except(['show']);
-
-        Route::post('chapters/{chapter}/submit', [CreatorChapterController::class, 'submit'])
-            ->name('chapters.submit');
-    });
-});
-
-Route::prefix('creator/comics/{comic}')
+    Route::prefix('creator/comics/{comic}')
     ->name('creator.comics.')
     ->middleware(['auth', 'role:kreator,admin'])
     ->group(function () {
@@ -115,7 +102,7 @@ Route::prefix('creator/comics/{comic}')
             ->name('chapters.submit');
     });
 
-Route::prefix('admin/chapter-reviews')
+    Route::prefix('admin/chapter-reviews')
     ->name('admin.chapter-reviews.')
     ->middleware(['auth', 'role:admin'])
     ->group(function () {
