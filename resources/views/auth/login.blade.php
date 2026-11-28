@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Sign In - KOMIQ')
+@section('title', 'Masuk - KOMIQ')
 @section('inline-errors', true)
 
 @section('content')
 <div class="card max-w-md mx-auto my-8 p-8">
     <div class="text-center mb-6">
-        <h1 class="text-2xl font-extrabold text-white">Sign In</h1>
+        <h1 class="text-2xl font-extrabold text-white">Masuk</h1>
         <p class="text-xs text-zinc-400 mt-1.5">
             Tidak punya akun?
-            <a href="{{ route('register') }}" class="font-bold ml-1 underline underline-offset-2">Sign up.</a>
+            <a href="{{ route('register') }}" class="font-bold ml-1 underline underline-offset-2">Daftar.</a>
         </p>
     </div>
 
@@ -25,10 +25,7 @@
         </div>
 
         <div>
-            <div class="flex justify-between items-center">
-                <label for="password" class="form-label">Password</label>
-                <span class="text-[11px] text-zinc-500 hover:text-red-400 cursor-pointer transition">Lupa Password?</span>
-            </div>
+            <label for="password" class="form-label">Password</label>
             <input type="password" id="password" name="password" required
                 placeholder="password" class="form-control @error('password') is-invalid @enderror">
             @error('password')
@@ -41,7 +38,7 @@
             Ingat saya
         </label>
 
-        <button type="submit" class="btn btn-primary w-full">Sign In</button>
+        <button type="submit" class="btn btn-primary w-full">Masuk</button>
     </form>
 </div>
 @endsection

@@ -71,14 +71,15 @@
                         <a href="{{ route('coins.index') }}" class="btn btn-primary mt-4"><x-icon name="coins" /> Top Up Koin</a>
                     @endif
                 @endguest
-                <p class="mt-4 text-xs text-zinc-500">* Sesuai ketentuan SKPL, sistem koin ini bersifat simulasi tanpa transaksi riil.</p>
             </div>
         @endif
     </div>
 
     <aside id="panel-bab" class="flex flex-col overflow-hidden rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] max-lg:fixed max-lg:inset-x-3 max-lg:bottom-16 max-lg:top-20 max-lg:z-40 max-lg:hidden max-lg:shadow-2xl lg:sticky lg:top-20 lg:max-h-[calc(100vh-9rem)]">
         <div class="h-24 shrink-0 overflow-hidden bg-[var(--bg-secondary)]">
-            @if($cover)
+            @if($comic->banner_image)
+                <img src="{{ asset('storage/' . $comic->banner_image) }}" alt="" class="h-full w-full object-cover opacity-80">
+            @elseif($cover)
                 <img src="{{ $cover }}" alt="" class="h-full w-full scale-110 object-cover opacity-60 blur-sm">
             @endif
         </div>
@@ -98,7 +99,7 @@
                 <x-icon name="book-open" /> Detail Komik
             </a>
             @if($isCreator || $isAdmin)
-                <a href="{{ route('creator.comics.chapters.index', $comic->id) }}" class="btn btn-secondary btn-sm w-full">
+                <a href="{{ route('creator.comics.chapters.index', $comic->id) }}" class="btn btn-sm w-full border border-zinc-500 text-zinc-100 hover:bg-zinc-800 hover:text-white">
                     <x-icon name="list" /> Kelola Chapter
                 </a>
             @endif

@@ -47,32 +47,25 @@
 
             @if(is_array($chapter->pages) && count($chapter->pages) > 0)
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">Halaman Komik Saat Ini ({{ count($chapter->pages) }} Halaman):</label>
-                    <p style="font-size: 0.825rem; color: var(--text-muted); margin-bottom: 0.75rem;">
-                        Hilangkan centang jika ingin menghapus halaman tertentu.
-                    </p>
-                    <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+                    <span class="form-label">Halaman Saat Ini ({{ count($chapter->pages) }})</span>
+                    <p class="mb-3 text-xs text-zinc-500">Klik gambar untuk menghapus, klik lagi untuk membatalkan.</p>
+                    <div class="grid grid-cols-4 gap-2 sm:grid-cols-6">
                         @foreach($chapter->pages as $index => $pagePath)
-                            <div style="position: relative; width: 100px; height: 135px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); background: #000;">
-                                <img src="{{ asset('storage/' . $pagePath) }}" alt="Hal {{ $index + 1 }}" style="width: 100%; height: 100%; object-fit: cover;">
-                                <div style="position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.7); border-radius: 4px; padding: 2px 4px;">
-                                    <input type="checkbox" name="existing_pages[]" value="{{ $pagePath }}" checked title="Pertahankan halaman ini" style="accent-color: #10b981;">
-                                </div>
-                                <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.75); color: #fff; font-size: 10px; text-align: center; padding: 2px;">
-                                    Hal {{ $index + 1 }}
-                                </div>
-                            </div>
+                            <label class="relative aspect-[3/4] cursor-pointer overflow-hidden rounded-md border border-red-500 bg-black has-[:checked]:border-[var(--border-color)]">
+                                <input type="checkbox" name="existing_pages[]" value="{{ $pagePath }}" checked class="peer sr-only">
+                                <img src="{{ asset('storage/' . $pagePath) }}" alt="Halaman {{ $index + 1 }}" class="h-full w-full object-cover opacity-30 peer-checked:opacity-100">
+                                <span class="absolute inset-x-0 bottom-0 hidden bg-black/75 py-0.5 text-center text-[10px] text-white peer-checked:block">Hal {{ $index + 1 }}</span>
+                                <span class="absolute inset-x-0 bottom-0 bg-red-600 py-0.5 text-center text-[10px] font-semibold text-white peer-checked:hidden">Dihapus</span>
+                            </label>
                         @endforeach
                     </div>
                 </div>
             @endif
 
             <div class="form-group" style="margin-top: 1.5rem;">
-                <label for="pages" class="form-label">Unggah Halaman Baru (Opsional)</label>
-                <input type="file" id="pages" name="pages[]" multiple accept="image/jpeg,image/png,image/jpg,image/webp" class="form-control">
-                <small style="color: var(--text-muted); display: block; margin-top: 0.35rem;">
-                    Halaman baru yang diunggah akan otomatis ditambahkan ke bagian akhir bab ini.
-                </small>
+                <span class="form-label">Tambah Halaman Baru (opsional)</span>
+                <x-upload-halaman awalan="Baru" />
+                <p class="mt-2 text-xs text-zinc-500">Halaman baru ditambahkan di bagian akhir chapter.</p>
             </div>
 
             <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; margin: 1.5rem 0;">
@@ -80,7 +73,7 @@
                     <div>
                         <div style="font-weight: 700; color: #fff;">Jadikan Chapter Premium</div>
                         <div style="font-size: 0.85rem; color: var(--text-muted);">
-                            Chapter premium membutuhkan koin simulasi dari pembaca untuk dibuka kuncinya.
+                            Pembaca harus membayar koin untuk membuka chapter ini.
                         </div>
                     </div>
                     <div>
@@ -91,10 +84,10 @@
                 </div>
 
                 <div id="coin_price_wrapper" style="margin-top: 1rem; {{ old('is_premium', $chapter->is_premium) ? '' : 'display: none;' }}">
-                    <label for="coin_price" class="form-label">Harga Koin (Simulasi) *</label>
+                    <label for="coin_price" class="form-label">Harga Koin *</label>
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
                         <input type="number" id="coin_price" name="coin_price" class="form-control" 
-                               style="max-width: 200px;" value="{{ old('coin_price', $chapter->coin_price) }}" min="1">
+                               style="max-width: 200px;" value="{{ old('coin_price', $chapter->coin_price ?: 10) }}" min="1">
                         <span style="color: var(--text-secondary); font-size: 0.9rem;"><x-icon name="coins" /> Koin</span>
                     </div>
                 </div>

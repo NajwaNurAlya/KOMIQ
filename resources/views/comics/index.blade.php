@@ -2,30 +2,16 @@
 
 @section('title', 'Jelajah Komik - KOMIQ')
 
-@section('styles')
-<style>
-    .pilih-filter {
-        appearance: none;
-        cursor: pointer;
-        padding-right: 2.75rem;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 1rem center;
-        background-size: 1rem;
-    }
-</style>
-@endsection
-
 @section('content')
 @php
-    $pilihan = 'form-control pilih-filter py-2 text-xs';
+    $pilihan = 'form-control py-2 text-xs';
 @endphp
 
 <form action="{{ route('comics.index') }}" method="GET" class="mb-10">
     <div class="flex gap-3">
         <div class="relative flex-1">
             <span class="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"><x-icon name="search" /></span>
-            <input type="search" name="search" value="{{ request('search') }}" placeholder="Cari judul atau sinopsis..." class="form-control pl-10">
+            <input type="search" name="search" value="{{ request('search') }}" placeholder="Cari judul, sinopsis, atau kreator..." class="form-control pl-10">
         </div>
         <button type="button" id="tombol-filter" class="btn btn-primary shrink-0">
             <span id="label-filter" class="hidden sm:inline">Sembunyikan Filter</span><span class="sm:hidden">Filter</span>
@@ -33,22 +19,13 @@
     </div>
 
     <div id="panel-filter" class="mt-4">
-        <div class="grid gap-4 sm:grid-cols-3">
+        <div class="grid gap-4 sm:grid-cols-2">
             <label class="text-xs text-zinc-400">
                 Genre
                 <select name="genre" class="{{ $pilihan }} mt-1">
                     <option value="">Semua</option>
                     @foreach($genres as $genre)
                         <option value="{{ $genre->slug }}" @selected(request('genre') === $genre->slug)>{{ $genre->name }}</option>
-                    @endforeach
-                </select>
-            </label>
-            <label class="text-xs text-zinc-400">
-                Kreator
-                <select name="kreator" class="{{ $pilihan }} mt-1">
-                    <option value="">Semua</option>
-                    @foreach($kreators as $kreator)
-                        <option value="{{ $kreator->id }}" @selected((string) request('kreator') === (string) $kreator->id)>{{ $kreator->name }}</option>
                     @endforeach
                 </select>
             </label>
@@ -62,7 +39,7 @@
             </label>
         </div>
         <div class="mt-4 flex justify-end gap-2">
-            @if(request()->hasAny(['search', 'genre', 'kreator', 'status']))
+            @if(request()->hasAny(['search', 'genre', 'status']))
                 <a href="{{ route('comics.index') }}" class="btn btn-secondary btn-sm">Reset</a>
             @endif
             <button type="submit" class="btn btn-primary btn-sm"><x-icon name="search" /> Cari</button>

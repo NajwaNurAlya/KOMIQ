@@ -12,9 +12,6 @@
         </p>
     </div>
     <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
-        <a href="{{ route('creator.hub') }}" class="btn btn-secondary">
-            <x-icon name="house" /> Kreator Hub
-        </a>
         <a href="{{ route('creator.comics.create') }}" class="btn btn-primary">
             <x-icon name="plus" /> Buat Komik Baru
         </a>
@@ -37,11 +34,11 @@
                 <option value="completed" {{ request('status') === 'completed' ? 'selected' : '' }}>Tamat (Completed)</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-secondary btn-sm" style="height: 38px;">
+        <button type="submit" class="btn btn-secondary self-stretch">
             Filter
         </button>
         @if(request()->hasAny(['search', 'status']))
-            <a href="{{ route('creator.comics.index') }}" class="btn btn-secondary btn-sm" style="height: 38px;" title="Reset Filter">
+            <a href="{{ route('creator.comics.index') }}" class="btn btn-secondary self-stretch" title="Reset Filter">
                 Reset
             </a>
         @endif

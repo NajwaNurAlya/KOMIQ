@@ -68,7 +68,8 @@ class ChapterController extends Controller
 
         $pages = [];
         if ($request->hasFile('pages')) {
-            $uploadedFiles = $request->file('pages');
+            $uploadedFiles = collect($request->file('pages'))
+                ->sortBy(fn ($file) => $file->getClientOriginalName(), SORT_NATURAL | SORT_FLAG_CASE);
             $pageIndex = 1;
 
             foreach ($uploadedFiles as $file) {
@@ -88,7 +89,7 @@ class ChapterController extends Controller
             'title' => $validated['title'],
             'pages' => $pages,
             'is_premium' => (bool) ($validated['is_premium'] ?? false),
-            'coin_price' => (int) ($validated['coin_price'] ?? 0),
+            'coin_price' => ($validated['is_premium'] ?? false) ? (int) $validated['coin_price'] : 0,
             'status' => Chapter::STATUS_DRAFT,
         ]);
 
@@ -134,7 +135,10 @@ class ChapterController extends Controller
 
         if ($request->hasFile('pages')) {
             $startIndex = count($pages) + 1;
-            foreach ($request->file('pages') as $file) {
+            $uploadedFiles = collect($request->file('pages'))
+                ->sortBy(fn ($file) => $file->getClientOriginalName(), SORT_NATURAL | SORT_FLAG_CASE);
+
+            foreach ($uploadedFiles as $file) {
                 $extension = $file->getClientOriginalExtension() ?: 'jpg';
                 $fileName = sprintf('page_%03d_%s.%s', $startIndex, uniqid(), $extension);
                 $directory = "comics/{$comic->id}/chapters/{$chapterNumber}";
@@ -154,7 +158,7 @@ class ChapterController extends Controller
             'title' => $validated['title'],
             'pages' => $pages,
             'is_premium' => (bool) ($validated['is_premium'] ?? false),
-            'coin_price' => (int) ($validated['coin_price'] ?? 0),
+            'coin_price' => ($validated['is_premium'] ?? false) ? (int) $validated['coin_price'] : 0,
         ]);
 
         foreach (array_diff($oldPages, $pages) as $removedFile) {

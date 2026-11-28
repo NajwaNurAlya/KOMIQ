@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Comic;
 use App\Models\Genre;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -23,7 +22,8 @@ class ComicController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->whereLike('title', "%{$search}%")
-                  ->orWhereLike('synopsis', "%{$search}%");
+                  ->orWhereLike('synopsis', "%{$search}%")
+                  ->orWhereHas('user', fn ($u) => $u->whereLike('name', "%{$search}%"));
             });
         }
 
@@ -38,14 +38,9 @@ class ComicController extends Controller
             $query->where('status', $request->status);
         }
 
-        if ($request->filled('kreator')) {
-            $query->where('user_id', $request->kreator);
-        }
-
         return view('comics.index', [
             'comics' => $query->orderBy('title')->paginate(18)->withQueryString(),
             'genres' => Genre::orderBy('name')->get(),
-            'kreators' => User::whereHas('comics')->orderBy('name')->get(),
         ]);
     }
 
@@ -53,7 +48,7 @@ class ComicController extends Controller
     {
         abort_if($comic->is_hidden, 404);
 
-        $comic->load(['genres', 'chapters' => fn ($q) => $q->approved()->orderBy('chapter_number')]);
+        $comic->load(['user', 'genres', 'chapters' => fn ($q) => $q->approved()->orderBy('chapter_number')]);
 
         $rekomendasi = Comic::where('id', '!=', $comic->id)
             ->where('is_hidden', false)

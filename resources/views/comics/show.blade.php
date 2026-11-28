@@ -16,7 +16,9 @@
     <div class="min-w-0 space-y-6">
         <section>
             <div class="h-44 overflow-hidden rounded-xl bg-[var(--bg-card)] sm:h-56">
-                @if($cover)
+                @if($comic->banner_image)
+                    <img src="{{ asset('storage/' . $comic->banner_image) }}" alt="" class="h-full w-full object-cover">
+                @elseif($cover)
                     <img src="{{ $cover }}" alt="" class="h-full w-full scale-110 object-cover opacity-60 blur-sm">
                 @endif
             </div>
@@ -78,6 +80,14 @@
     </div>
 
     <aside class="space-y-6">
+        <section class="{{ $kotak }}">
+            <h2 class="{{ $judulKotak }}">Kreator</h2>
+            <div class="flex items-center gap-3 px-5 py-4">
+                <img src="{{ $comic->user->avatar_url }}" alt="" class="h-9 w-9 rounded-full">
+                <span class="font-semibold">{{ $comic->user->name }}</span>
+            </div>
+        </section>
+
         <section class="{{ $kotak }}">
             <h2 class="{{ $judulKotak }}">Deskripsi</h2>
             <div class="space-y-4 px-5 py-4 text-sm">

@@ -14,6 +14,7 @@ class Comic extends Model
         'slug',
         'synopsis',
         'cover_image',
+        'banner_image',
         'status',
         'is_hidden',
     ];

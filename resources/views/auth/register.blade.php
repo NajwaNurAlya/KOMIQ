@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Sign Up - KOMIQ')
+@section('title', 'Daftar - KOMIQ')
 @section('inline-errors', true)
 
 @section('content')
 <div class="card max-w-md mx-auto my-8 p-8">
     <div class="text-center mb-6">
-        <h1 class="text-2xl font-extrabold text-white">Sign Up</h1>
+        <h1 class="text-2xl font-extrabold text-white">Daftar</h1>
         <p class="text-xs text-zinc-400 mt-1.5">
             Sudah punya akun?
-            <a href="{{ route('login') }}" class="font-bold ml-1 underline underline-offset-2">Sign In.</a>
+            <a href="{{ route('login') }}" class="font-bold ml-1 underline underline-offset-2">Masuk.</a>
         </p>
     </div>
 
@@ -62,11 +62,7 @@
                 placeholder="Ulangi password" class="form-control">
         </div>
 
-        <button type="submit" class="btn btn-primary w-full">Sign Up</button>
+        <button type="submit" class="btn btn-primary w-full">Daftar</button>
     </form>
-
-    <p class="mt-5 text-[11px] text-zinc-400 text-center leading-relaxed">
-        Dengan berlanjut, anda setuju dengan <a href="#" class="text-zinc-300 underline hover:text-white">Syarat Pengguna</a> dan <a href="#" class="text-zinc-300 underline hover:text-white">Privasi</a> platform KOMIQ.
-    </p>
 </div>
 @endsection

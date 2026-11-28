@@ -6,7 +6,7 @@
 @section('content')
 <div class="border-b border-[var(--border-color)] pb-4 mb-6">
     <h1 class="text-2xl font-bold text-white">Pengaturan Pengguna</h1>
-    <p class="text-xs text-zinc-400 mt-1">Kelola data profil pribadi, keamanan kata sandi, dan preferensi akun Anda.</p>
+    <p class="text-xs text-zinc-400 mt-1">Kelola profil, kata sandi, dan saldo koin Anda.</p>
 </div>
 
 <div class="card p-0 overflow-hidden grid grid-cols-1 md:grid-cols-12 min-h-[550px]">
@@ -27,7 +27,7 @@
         <div class="space-y-6">
             <div class="border-b border-[var(--border-color)] pb-3">
                 <h2 class="text-lg font-bold text-white">Informasi Akun</h2>
-                <p class="text-xs text-zinc-400">Atur nama pengguna, email, dan status visibilitas akun Anda.</p>
+                <p class="text-xs text-zinc-400">Atur nama dan email akun Anda.</p>
             </div>
 
             <div class="flex justify-center pt-2 pb-4">
@@ -76,16 +76,6 @@
                     </div>
                 </div>
 
-                <div class="pt-2 border-t border-[var(--border-color)] flex items-center justify-between">
-                    <div>
-                        <span class="block text-xs font-semibold text-zinc-300">Status Keaktifan Akun</span>
-                        <span class="text-[11px] text-zinc-500">Akun terverifikasi dan aktif di sistem KOMIQ</span>
-                    </div>
-                    <span class="badge badge-approved">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Aktif
-                    </span>
-                </div>
-
                 <button type="submit" class="btn btn-primary w-full">Simpan Perubahan Profil</button>
             </form>
         </div>
@@ -130,7 +120,7 @@
         <div class="space-y-6">
             <div class="border-b border-[var(--border-color)] pb-3">
                 <h2 class="text-lg font-bold text-white">Saldo & Koin Akun</h2>
-                <p class="text-xs text-zinc-400">Informasi saldo koin simulasi untuk membuka Chapter Premium komik.</p>
+                <p class="text-xs text-zinc-400">Koin dipakai untuk membuka chapter premium.</p>
             </div>
 
             <div class="bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl p-6 text-center max-w-lg mx-auto space-y-3">
@@ -139,9 +129,6 @@
                     <x-icon name="coins" />
                     <span>{{ number_format($user->coin_balance) }}</span>
                 </div>
-                <p class="text-xs text-zinc-400">
-                    Koin dapat digunakan untuk membuka bab premium komik favorit Anda yang dikelola oleh tim KOMIQ.
-                </p>
                 <a href="{{ route('coins.index') }}" class="btn btn-primary"><x-icon name="coins" /> Top Up Koin</a>
             </div>
         </div>

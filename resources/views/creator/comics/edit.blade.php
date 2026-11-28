@@ -127,6 +127,14 @@
                     @enderror
                 </div>
 
+                <div class="form-group" style="margin-bottom: 0;">
+                    <span class="form-label">Banner (opsional)</span>
+                    <x-upload-banner :gambar="$comic->banner_image ? asset('storage/' . $comic->banner_image) : null" />
+                    @error('banner_image')
+                        <div class="form-error">{{ $message }}</div>
+                    @enderror
+                </div>
+
                 {{-- Pilihan Checkbox Genre --}}
                 @php
                     $selectedGenres = old('genre_ids', $comic->genres->pluck('id')->toArray());

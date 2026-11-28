@@ -34,7 +34,7 @@ class ComicController extends Controller
    
     public function index(Request $request): View
     {
-        $query = auth()->user()->comics()
+        $query = (auth()->user()->isAdmin() ? Comic::query() : auth()->user()->comics())
             ->with(['genres'])
             ->withCount('chapters');
 
@@ -71,6 +71,7 @@ class ComicController extends Controller
             'synopsis'    => 'nullable|string',
             'status'      => 'required|in:ongoing,completed',
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'genre_ids'   => 'required|array|min:1',
             'genre_ids.*' => 'exists:genres,id',
         ], [
@@ -84,6 +85,9 @@ class ComicController extends Controller
             'cover_image.image'  => 'Sampul harus berupa berkas gambar.',
             'cover_image.mimes'  => 'Format sampul yang didukung: JPEG, PNG, JPG, WEBP.',
             'cover_image.max'    => 'Ukuran file sampul maksimal 2 MB.',
+            'banner_image.image' => 'Banner harus berupa berkas gambar.',
+            'banner_image.mimes' => 'Format banner yang didukung: JPEG, PNG, JPG, WEBP.',
+            'banner_image.max'   => 'Ukuran file banner maksimal 2 MB.',
         ]);
 
         $coverPath = null;
@@ -104,6 +108,7 @@ class ComicController extends Controller
             'slug'        => $slug,
             'synopsis'    => $validated['synopsis'] ?? null,
             'cover_image' => $coverPath,
+            'banner_image' => $request->file('banner_image')?->store('banners', 'public'),
             'status'      => $validated['status'],
             'is_hidden'   => false,
         ]);
@@ -145,6 +150,7 @@ class ComicController extends Controller
             'synopsis'    => 'nullable|string',
             'status'      => 'required|in:ongoing,completed',
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'genre_ids'   => 'required|array|min:1',
             'genre_ids.*' => 'exists:genres,id',
         ], [
@@ -158,6 +164,9 @@ class ComicController extends Controller
             'cover_image.image'  => 'Sampul harus berupa berkas gambar.',
             'cover_image.mimes'  => 'Format sampul yang didukung: JPEG, PNG, JPG, WEBP.',
             'cover_image.max'    => 'Ukuran file sampul maksimal 2 MB.',
+            'banner_image.image' => 'Banner harus berupa berkas gambar.',
+            'banner_image.mimes' => 'Format banner yang didukung: JPEG, PNG, JPG, WEBP.',
+            'banner_image.max'   => 'Ukuran file banner maksimal 2 MB.',
         ]);
 
         $data = [
@@ -182,6 +191,13 @@ class ComicController extends Controller
             $data['cover_image'] = $request->file('cover_image')->store('covers', 'public');
         }
 
+        if ($request->hasFile('banner_image')) {
+            if ($comic->banner_image) {
+                Storage::disk('public')->delete($comic->banner_image);
+            }
+            $data['banner_image'] = $request->file('banner_image')->store('banners', 'public');
+        }
+
         $comic->update($data);
 
         $comic->genres()->sync($validated['genre_ids']);
@@ -203,7 +219,10 @@ class ComicController extends Controller
             Storage::disk('public')->delete($comic->cover_image);
         }
 
-        
+        if ($comic->banner_image) {
+            Storage::disk('public')->delete($comic->banner_image);
+        }
+
         foreach ($comic->chapters as $chapter) {
             if (is_array($chapter->pages)) {
                 foreach ($chapter->pages as $pagePath) {

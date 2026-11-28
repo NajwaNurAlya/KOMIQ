@@ -112,6 +112,14 @@
                         @enderror
                     </div>
 
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <span class="form-label">Banner (opsional)</span>
+                        <x-upload-banner />
+                        @error('banner_image')
+                            <div class="form-error">{{ $message }}</div>
+                        @enderror
+                    </div>
+
                     {{-- Pilihan Checkbox Genre --}}
                     <div class="form-group" style="margin-bottom: 0;">
                         <label class="form-label">

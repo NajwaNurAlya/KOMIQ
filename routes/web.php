@@ -7,7 +7,6 @@ use App\Http\Controllers\ComicController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Creator\ChapterController as CreatorChapterController;
 use App\Http\Controllers\Creator\ComicController as CreatorComicController;
-use App\Http\Controllers\Creator\HubController as CreatorHubController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicChapterController;
@@ -79,11 +78,7 @@ Route::prefix('comics/{comic}')->group(function () {
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])
     ->middleware('auth')
     ->name('comments.destroy');
-    
-    Route::get('/creator', [CreatorHubController::class, 'index'])
-        ->middleware(['auth', 'role:kreator,admin'])
-        ->name('creator.hub');
-        
+
     Route::prefix('creator')
         ->name('creator.')
         ->middleware(['auth', 'role:kreator,admin'])

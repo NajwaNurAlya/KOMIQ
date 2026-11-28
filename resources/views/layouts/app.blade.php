@@ -152,6 +152,15 @@
                 box-shadow: 0 0 0 1px var(--accent-primary);
             }
             .form-control.is-invalid { border-color: #ef4444; }
+            select.form-control {
+                appearance: none;
+                cursor: pointer;
+                padding-right: 2.75rem;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 1rem center;
+                background-size: 1rem;
+            }
             .form-error { margin-top: 0.3rem; font-size: 0.75rem; color: #f87171; }
 
             .table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
@@ -170,16 +179,11 @@
 </head>
 <body class="min-h-screen flex flex-col">
     <header class="bg-[var(--bg-secondary)] border-b border-[var(--border-color)] sticky top-0 z-50">
-        <div class="max-w-[1200px] mx-auto px-6 py-3 flex items-center justify-between gap-4">
+        <div class="max-w-[1200px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-2 sm:gap-4">
             <div class="flex items-center gap-8">
-                <a href="{{ route('home') }}" class="text-2xl font-black font-brand tracking-wider text-white hover:text-white">KOMIQ<span class="text-red-500">.</span></a>
+                <a href="{{ route('home') }}" class="text-xl sm:text-2xl font-black font-brand tracking-wider text-white hover:text-white">KOMIQ<span class="text-red-500">.</span></a>
                 <nav class="hidden md:flex items-center gap-6 text-xs font-semibold">
                     <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-white' : 'text-zinc-400' }} hover:text-white">Beranda</a>
-                    @auth
-                        @if(auth()->user()->isKreator() || auth()->user()->isAdmin())
-                            <a href="{{ route('creator.comics.index') }}" class="{{ request()->routeIs('creator.comics.*') ? 'text-white' : 'text-zinc-400' }} hover:text-white">Komik Saya</a>
-                        @endif
-                    @endauth
                     <a href="{{ route('comics.index') }}" class="{{ request()->routeIs('comics.index') ? 'text-white' : 'text-zinc-400' }} hover:text-white">Jelajah</a>
                 </nav>
             </div>
@@ -191,23 +195,23 @@
             </form>
             <a href="{{ route('comics.index') }}" class="sm:hidden text-zinc-300 hover:text-white" aria-label="Jelajah dan cari komik"><x-icon name="search" size="1.25em" /></a>
 
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2 sm:gap-3">
                 @auth
                     @if(auth()->user()->isAdmin())
-                        <a href="{{ route('admin.chapter-reviews.index') }}" class="btn btn-sm rounded-full bg-white text-zinc-900 hover:bg-zinc-200 hover:text-zinc-900"><x-icon name="shield" /> Admin</a>
-                        <a href="{{ route('creator.hub') }}" class="btn btn-sm rounded-full btn-secondary"><x-icon name="palette" /> Kreator Hub</a>
+                        <a href="{{ route('admin.chapter-reviews.index') }}" title="Admin" class="btn btn-sm rounded-full bg-white text-zinc-900 hover:bg-zinc-200 hover:text-zinc-900 whitespace-nowrap"><x-icon name="shield" /><span class="hidden sm:inline">Admin</span></a>
+                        <a href="{{ route('creator.comics.index') }}" title="Kreator Hub" class="btn btn-sm rounded-full bg-white text-zinc-900 hover:bg-zinc-200 hover:text-zinc-900 whitespace-nowrap"><x-icon name="palette" /><span class="hidden sm:inline">Kreator Hub</span></a>
                     @elseif(auth()->user()->isKreator())
-                        <a href="{{ route('creator.hub') }}" class="btn btn-sm rounded-full bg-white text-zinc-900 hover:bg-zinc-200 hover:text-zinc-900"><x-icon name="palette" /> Kreator Hub</a>
+                        <a href="{{ route('creator.comics.index') }}" title="Kreator Hub" class="btn btn-sm rounded-full bg-white text-zinc-900 hover:bg-zinc-200 hover:text-zinc-900 whitespace-nowrap"><x-icon name="palette" /><span class="hidden sm:inline">Kreator Hub</span></a>
                     @endif
-                    <a href="{{ route('coins.index') }}" title="Top Up Koin" class="flex shrink-0 items-center gap-1.5 whitespace-nowrap bg-[var(--bg-primary)] border border-[var(--border-color)] px-3 py-1 rounded-full text-xs font-bold text-amber-300 hover:border-amber-400 hover:text-amber-200">
-                        <x-icon name="coins" /> {{ number_format(auth()->user()->coin_balance) }}<span class="hidden sm:inline">Koin</span> <x-icon name="plus" />
+                    <a href="{{ route('coins.index') }}" title="Top Up Koin" class="flex shrink-0 items-center gap-1.5 whitespace-nowrap bg-[var(--bg-primary)] border border-[var(--border-color)] px-2.5 sm:px-3 py-1 rounded-full text-xs font-bold text-amber-300 hover:border-amber-400 hover:text-amber-200">
+                        <x-icon name="coins" /> {{ number_format(auth()->user()->coin_balance) }}<span class="hidden sm:inline">Koin</span> <span class="hidden sm:inline-flex"><x-icon name="plus" /></span>
                     </a>
                     <a href="{{ route('profile.show') }}" class="flex items-center gap-2 text-xs font-bold text-white hover:text-white">
                         <img src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}" class="w-8 h-8 shrink-0 rounded-full object-cover border border-red-600">
                         <span class="hidden md:inline">{{ auth()->user()->name }}</span>
                     </a>
                     <form action="{{ route('logout') }}" method="POST">
-                        <button type="submit" class="btn btn-secondary btn-sm">Keluar</button>
+                        <button type="submit" title="Keluar" class="btn btn-secondary btn-sm"><span class="sm:hidden"><x-icon name="log-out" /></span><span class="hidden sm:inline">Keluar</span></button>
                     </form>
                 @else
                     <a href="{{ route('login') }}" class="btn btn-secondary btn-sm">Masuk</a>
