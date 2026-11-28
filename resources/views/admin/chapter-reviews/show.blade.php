@@ -100,6 +100,7 @@
 
             <div id="reject-form-wrapper" style="margin-top: 1.25rem; display: {{ $errors->has('review_note') ? 'block' : 'none' }}; border-top: 1px dashed var(--border-color); padding-top: 1rem;">
                 <form action="{{ route('admin.chapter-reviews.reject', $chapter->id) }}" method="POST">
+                    <input type="hidden" name="action" value="reject">
                     <div class="form-group">
                         <label for="review_note" class="form-label" style="color: #f87171;">
                             Catatan Evaluasi / Alasan Penolakan *

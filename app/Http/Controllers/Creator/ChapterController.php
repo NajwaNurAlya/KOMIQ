@@ -130,17 +130,7 @@ class ChapterController extends Controller
         $chapterNumber = (int) $validated['chapter_number'];
 
         $oldPages = is_array($chapter->pages) ? $chapter->pages : [];
-        $keptPages = $request->input('existing_pages', []);
-        if (! is_array($keptPages)) {
-            $keptPages = [];
-        }
-
-        $removedPages = array_diff($oldPages, $keptPages);
-        foreach ($removedPages as $removedFile) {
-            Storage::disk('public')->delete($removedFile);
-        }
-
-        $pages = array_values($keptPages);
+        $pages = array_values(array_intersect($oldPages, (array) $request->input('existing_pages')));
 
         if ($request->hasFile('pages')) {
             $startIndex = count($pages) + 1;
@@ -166,6 +156,10 @@ class ChapterController extends Controller
             'is_premium' => (bool) ($validated['is_premium'] ?? false),
             'coin_price' => (int) ($validated['coin_price'] ?? 0),
         ]);
+
+        foreach (array_diff($oldPages, $pages) as $removedFile) {
+            Storage::disk('public')->delete($removedFile);
+        }
 
         return redirect()
             ->route('creator.comics.chapters.index', $comic->id)

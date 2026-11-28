@@ -51,24 +51,26 @@
                     Chapter ini merupakan konten eksklusif dan membutuhkan
                     <strong class="text-amber-400">{{ $chapter->coin_price }} Koin</strong> untuk dibuka.
                 </p>
-                <p class="mb-6 text-sm text-zinc-500">
-                    Saldo Koin Anda saat ini: <strong class="text-amber-400">{{ $userCoinBalance ?? 0 }} Koin</strong>
-                </p>
-
-                @if(($userCoinBalance ?? 0) >= $chapter->coin_price)
-                    <form action="{{ route('comics.chapters.unlock', [$comic->id, $chapter->id]) }}" method="POST">
-                        <button type="submit" class="btn btn-primary">
-                            <x-icon name="coins" /> Buka Chapter dengan {{ $chapter->coin_price }} Koin (Simulasi)
-                        </button>
-                    </form>
+                @guest
+                    <a href="{{ route('login') }}" class="btn btn-primary"><x-icon name="user" /> Masuk untuk Membuka</a>
                 @else
-                    <div class="alert alert-error mx-auto mb-0 max-w-md justify-center">
-                        <x-icon name="triangle-alert" /> Saldo koin Anda tidak mencukupi (Kurang {{ $chapter->coin_price - ($userCoinBalance ?? 0) }} koin).
-                    </div>
-                    @auth
+                    <p class="mb-6 text-sm text-zinc-500">
+                        Saldo Koin Anda saat ini: <strong class="text-amber-400">{{ $userCoinBalance }} Koin</strong>
+                    </p>
+
+                    @if($userCoinBalance >= $chapter->coin_price)
+                        <form action="{{ route('comics.chapters.unlock', [$comic->id, $chapter->id]) }}" method="POST">
+                            <button type="submit" class="btn btn-primary">
+                                <x-icon name="coins" /> Buka Chapter dengan {{ $chapter->coin_price }} Koin
+                            </button>
+                        </form>
+                    @else
+                        <div class="alert alert-error mx-auto mb-0 max-w-md justify-center">
+                            <x-icon name="triangle-alert" /> Saldo koin Anda tidak mencukupi (Kurang {{ $chapter->coin_price - $userCoinBalance }} koin).
+                        </div>
                         <a href="{{ route('coins.index') }}" class="btn btn-primary mt-4"><x-icon name="coins" /> Top Up Koin</a>
-                    @endauth
-                @endif
+                    @endif
+                @endguest
                 <p class="mt-4 text-xs text-zinc-500">* Sesuai ketentuan SKPL, sistem koin ini bersifat simulasi tanpa transaksi riil.</p>
             </div>
         @endif

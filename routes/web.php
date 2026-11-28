@@ -67,7 +67,8 @@ Route::prefix('comics/{comic}')->group(function () {
     Route::get('chapters/{chapter}', [PublicChapterController::class, 'show'])
         ->name('comics.chapters.show');
 
-    Route::post('chapters/{chapter}/unlock', [PublicChapterController::class, 'unlockSimulation'])
+    Route::post('chapters/{chapter}/unlock', [PublicChapterController::class, 'unlock'])
+        ->middleware('auth')
         ->name('comics.chapters.unlock');
 
     Route::post('chapters/{chapter}/comments', [CommentController::class, 'store'])
