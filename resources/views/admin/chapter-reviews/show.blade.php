@@ -3,10 +3,9 @@
 @section('title', 'Periksa Chapter: ' . $chapter->title . ' - Moderasi Admin')
 
 @section('content')
+<a href="{{ route('admin.chapter-reviews.index') }}" class="btn btn-secondary btn-sm" style="margin-bottom: 1.5rem;">← Kembali ke Antrean Moderasi</a>
+
 <div style="margin-bottom: 1.5rem;">
-    <a href="{{ route('admin.chapter-reviews.index') }}" style="color: var(--text-muted); font-size: 0.875rem;">
-        ← Kembali ke Antrean Moderasi
-    </a>
     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 0.5rem; flex-wrap: wrap; gap: 1rem;">
         <div>
             <div style="font-size: 0.875rem; color: var(--accent-text); font-weight: 600;">
@@ -88,6 +87,7 @@
             @if($chapter->isPending())
             <form action="{{ route('admin.chapter-reviews.approve', $chapter->id) }}" method="POST" style="margin-bottom: 1rem;"
                   onsubmit="return confirm('Apakah Anda yakin ingin MENYETUJUI chapter ini? Chapter akan langsung dipublikasikan untuk pembaca.');">
+                @csrf
                 <button type="submit" class="btn btn-success" style="width: 100%; justify-content: center; padding: 0.75rem;">
                     <x-icon name="circle-check" /> Setujui Chapter (Approve)
                 </button>
@@ -99,7 +99,8 @@
             </button>
 
             <div id="reject-form-wrapper" style="margin-top: 1.25rem; display: {{ $errors->has('review_note') ? 'block' : 'none' }}; border-top: 1px dashed var(--border-color); padding-top: 1rem;">
-                <form action="{{ route('admin.chapter-reviews.reject', $chapter->id) }}" method="POST">
+                <form action="{{ route('admin.chapter-reviews.reject', $chapter->id) }}" method="POST" onsubmit="return confirm('Kirim penolakan dan catatan evaluasi kepada Kreator?');">
+                    @csrf
                     <input type="hidden" name="action" value="reject">
                     <div class="form-group">
                         <label for="review_note" class="form-label" style="color: #f87171;">

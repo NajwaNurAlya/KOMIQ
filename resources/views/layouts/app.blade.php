@@ -98,6 +98,7 @@
                 font-weight: 700;
                 text-transform: uppercase;
                 letter-spacing: 0.05em;
+                white-space: nowrap;
             }
             .badge-draft { background: var(--status-draft-bg); color: var(--status-draft-text); border: 1px solid rgba(161, 161, 170, 0.3); }
             .badge-pending { background: var(--status-pending-bg); color: var(--status-pending-text); border: 1px solid rgba(245, 158, 11, 0.4); }
@@ -164,6 +165,51 @@
                 border-bottom: 1px solid var(--border-color);
             }
             .table td { padding: 1.25rem; border-bottom: 1px solid var(--border-color); }
+
+            .admin-page-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 2rem;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            .admin-back-link {
+                display: inline-flex;
+                margin-bottom: 0.75rem;
+                color: var(--text-muted);
+                font-size: 0.875rem;
+            }
+            .admin-stat-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+                margin-bottom: 2rem;
+            }
+            .admin-stat-card {
+                margin-bottom: 0;
+                padding: 1.25rem;
+            }
+            .admin-stat-label {
+                font-size: 0.8rem;
+                color: var(--text-muted);
+                text-transform: uppercase;
+            }
+            .admin-stat-value {
+                margin-top: 0.25rem;
+                color: #fff;
+                font-size: 2rem;
+                font-weight: 700;
+            }
+            .admin-table-card { padding: 0; overflow: hidden; }
+            .admin-table-title {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 1rem;
+                padding: 1.25rem 1.5rem;
+                border-bottom: 1px solid var(--border-color);
+            }
         }
     </style>
     @yield('styles')
@@ -176,7 +222,7 @@
                 <nav class="hidden md:flex items-center gap-6 text-xs font-semibold">
                     <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-white' : 'text-zinc-400' }} hover:text-white">Beranda</a>
                     @auth
-                        @if(auth()->user()->isKreator() || auth()->user()->isAdmin())
+                        @if(auth()->user()->isKreator())
                             <a href="{{ route('creator.comics.index') }}" class="{{ request()->routeIs('creator.comics.*') ? 'text-white' : 'text-zinc-400' }} hover:text-white">Komik Saya</a>
                         @endif
                     @endauth
@@ -194,8 +240,7 @@
             <div class="flex items-center gap-3">
                 @auth
                     @if(auth()->user()->isAdmin())
-                        <a href="{{ route('admin.chapter-reviews.index') }}" class="btn btn-sm rounded-full bg-white text-zinc-900 hover:bg-zinc-200 hover:text-zinc-900"><x-icon name="shield" /> Admin</a>
-                        <a href="{{ route('creator.hub') }}" class="btn btn-sm rounded-full btn-secondary"><x-icon name="palette" /> Kreator Hub</a>
+                        <a href="{{ route('admin.dashboard') }}" class="btn btn-sm rounded-full bg-white text-zinc-900 hover:bg-zinc-200 hover:text-zinc-900"><x-icon name="shield" /> Admin</a>
                     @elseif(auth()->user()->isKreator())
                         <a href="{{ route('creator.hub') }}" class="btn btn-sm rounded-full bg-white text-zinc-900 hover:bg-zinc-200 hover:text-zinc-900"><x-icon name="palette" /> Kreator Hub</a>
                     @endif

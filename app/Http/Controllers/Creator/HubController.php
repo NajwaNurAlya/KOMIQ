@@ -11,11 +11,7 @@ class HubController extends Controller
     public function index(): View
     {
         $user = auth()->user();
-        if ($user && $user->isAdmin()) {
-            $comics = Comic::withCount('chapters')->orderBy('title')->get();
-        } else {
-            $comics = $user ? $user->comics()->withCount('chapters')->orderBy('title')->get() : collect();
-        }
+        $comics = $user ? $user->comics()->withCount('chapters')->orderBy('title')->get() : collect();
 
         return view('creator.hub', compact('comics'));
     }
