@@ -98,7 +98,7 @@
             <a href="{{ route('comics.show', $comic->id) }}" class="btn btn-sm w-full border border-zinc-500 text-zinc-100 hover:bg-zinc-800 hover:text-white">
                 <x-icon name="book-open" /> Detail Komik
             </a>
-            @if($isCreator || $isAdmin)
+            @if($isCreator)
                 <a href="{{ route('creator.comics.chapters.index', $comic->id) }}" class="btn btn-sm w-full border border-zinc-500 text-zinc-100 hover:bg-zinc-800 hover:text-white">
                     <x-icon name="list" /> Kelola Chapter
                 </a>
@@ -157,8 +157,15 @@
                             <span class="font-semibold text-zinc-100">{{ $comment->user->name }}</span>
                             <span class="text-zinc-500">{{ $comment->created_at->diffForHumans() }}</span>
                             @auth
+                                @if(auth()->id() !== $comment->user_id && ! auth()->user()->isAdmin())
+                                    <form action="{{ route('comments.report', $comment->id) }}" method="POST" class="ml-auto"
+                                          onsubmit="return confirm('Laporkan komentar ini untuk ditinjau Admin?')">
+                                        @csrf
+                                        <button type="submit" class="text-zinc-500 hover:text-amber-300" aria-label="Laporkan komentar" title="Laporkan komentar"><x-icon name="triangle-alert" /></button>
+                                    </form>
+                                @endif
                                 @if(auth()->id() === $comment->user_id || auth()->user()->isAdmin())
-                                    <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" class="ml-auto"
+                                    <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" class="{{ auth()->id() === $comment->user_id ? 'ml-auto' : '' }}"
                                           onsubmit="return confirm('Hapus komentar ini?')">
                                         @method('DELETE')
                                         <button type="submit" class="text-zinc-500 hover:text-red-400" aria-label="Hapus komentar"><x-icon name="trash-2" /></button>

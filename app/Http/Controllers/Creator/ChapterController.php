@@ -22,10 +22,6 @@ class ChapterController extends Controller
 
         $user = auth()->user();
 
-        if ($user->isAdmin()) {
-            return;
-        }
-
         if (! $user->isKreator() || ($comic->user_id !== null && (int) $comic->user_id !== (int) $user->id)) {
             abort(403, 'Akses ditolak: Anda tidak memiliki wewenang untuk mengelola chapter pada komik milik kreator lain.');
         }

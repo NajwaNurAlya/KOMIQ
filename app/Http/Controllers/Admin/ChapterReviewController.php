@@ -23,6 +23,9 @@ class ChapterReviewController extends Controller
         $this->authorizeAdminAccess();
 
         $statusFilter = $request->query('status', Chapter::STATUS_PENDING);
+        if (! in_array($statusFilter, ['all', Chapter::STATUS_PENDING, Chapter::STATUS_APPROVED, Chapter::STATUS_REJECTED], true)) {
+            $statusFilter = Chapter::STATUS_PENDING;
+        }
 
         $query = Chapter::with(['comic.user', 'reviewer'])
             ->orderBy('created_at', 'desc');
@@ -67,6 +70,7 @@ class ChapterReviewController extends Controller
             'reviewed_by' => $adminId,
             'reviewed_at' => now(),
             'published_at' => now(),
+            'review_note' => null,
         ]);
 
         return redirect()
@@ -90,6 +94,7 @@ class ChapterReviewController extends Controller
             'review_note' => $validated['review_note'],
             'reviewed_by' => $adminId,
             'reviewed_at' => now(),
+            'published_at' => null,
         ]);
 
         return redirect()

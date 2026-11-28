@@ -1,6 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\ChapterReviewController;
+use App\Http\Controllers\Admin\CommentModerationController;
+use App\Http\Controllers\Admin\ComicModerationController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\GenreController as AdminGenreController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CoinController;
 use App\Http\Controllers\ComicController;
@@ -79,9 +84,13 @@ Route::prefix('comics/{comic}')->group(function () {
     ->middleware('auth')
     ->name('comments.destroy');
 
+    Route::post('/comments/{comment}/report', [CommentController::class, 'report'])
+    ->middleware('auth')
+    ->name('comments.report');
+
     Route::prefix('creator')
         ->name('creator.')
-        ->middleware(['auth', 'role:kreator,admin'])
+        ->middleware(['auth', 'role:kreator'])
         ->group(function () {
             Route::resource('comics', CreatorComicController::class)
                 ->except(['show']);
@@ -89,7 +98,7 @@ Route::prefix('comics/{comic}')->group(function () {
 
     Route::prefix('creator/comics/{comic}')
     ->name('creator.comics.')
-    ->middleware(['auth', 'role:kreator,admin'])
+    ->middleware(['auth', 'role:kreator'])
     ->group(function () {
         Route::resource('chapters', CreatorChapterController::class)
             ->except(['show']);
@@ -98,10 +107,12 @@ Route::prefix('comics/{comic}')->group(function () {
             ->name('chapters.submit');
     });
 
-    Route::prefix('admin/chapter-reviews')
-    ->name('admin.chapter-reviews.')
+    Route::prefix('admin')
+    ->name('admin.')
     ->middleware(['auth', 'role:admin'])
     ->group(function () {
+        Route::get('/', DashboardController::class)->name('dashboard');
+        Route::prefix('chapter-reviews')->name('chapter-reviews.')->group(function () {
         Route::get('/', [ChapterReviewController::class, 'index'])
             ->name('index');
 
@@ -113,4 +124,23 @@ Route::prefix('comics/{comic}')->group(function () {
 
         Route::post('/{chapter}/reject', [ChapterReviewController::class, 'reject'])
             ->name('reject');
+        });
+        Route::prefix('comics')->name('comics.')->group(function () {
+            Route::get('/', [ComicModerationController::class, 'index'])->name('index');
+            Route::get('/{comic}', [ComicModerationController::class, 'show'])->name('show');
+            Route::patch('/{comic}/hide', [ComicModerationController::class, 'hide'])->name('hide');
+            Route::patch('/{comic}/unhide', [ComicModerationController::class, 'unhide'])->name('unhide');
+        });
+        Route::prefix('comments')->name('comments.')->group(function () {
+            Route::get('/', [CommentModerationController::class, 'index'])->name('index');
+            Route::patch('/{comment}/review', [CommentModerationController::class, 'markReviewed'])->name('review');
+            Route::patch('/{comment}/hide', [CommentModerationController::class, 'hide'])->name('hide');
+            Route::patch('/{comment}/unhide', [CommentModerationController::class, 'unhide'])->name('unhide');
+        });
+        Route::prefix('users')->name('users.')->group(function () {
+            Route::get('/', [AdminUserController::class, 'index'])->name('index');
+            Route::get('/{user}', [AdminUserController::class, 'show'])->name('show');
+            Route::patch('/{user}', [AdminUserController::class, 'update'])->name('update');
+        });
+        Route::resource('genres', AdminGenreController::class)->only(['index', 'store', 'update', 'destroy']);
     });

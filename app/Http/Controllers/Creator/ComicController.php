@@ -22,10 +22,6 @@ class ComicController extends Controller
 
         $user = auth()->user();
 
-        if ($user->isAdmin()) {
-            return;
-        }
-
         if (! $user->isKreator() || ($comic->user_id !== null && (int) $comic->user_id !== (int) $user->id)) {
             abort(403, 'Akses ditolak: Anda tidak memiliki wewenang untuk mengelola komik ini.');
         }
@@ -34,7 +30,7 @@ class ComicController extends Controller
    
     public function index(Request $request): View
     {
-        $query = (auth()->user()->isAdmin() ? Comic::query() : auth()->user()->comics())
+        $query = auth()->user()->comics()
             ->with(['genres'])
             ->withCount('chapters');
 
