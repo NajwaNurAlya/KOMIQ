@@ -14,12 +14,16 @@ class PublicChapterController extends Controller
 {
     public function show(Request $request, Comic $comic, int $chapterNumber): View
     {
+        $isCreator = auth()->check() && $comic->user_id === auth()->id();
+        $isAdmin = auth()->check() && auth()->user()->isAdmin();
+
+        if ($comic->is_hidden && ! $isCreator && ! $isAdmin) {
+            abort(404, 'Komik tidak ditemukan.');
+        }
+
         $chapter = Chapter::where('comic_id', $comic->id)
             ->where('chapter_number', $chapterNumber)
             ->firstOrFail();
-
-        $isCreator = auth()->check() && $comic->user_id === auth()->id();
-        $isAdmin = auth()->check() && auth()->user()->isAdmin();
 
         if (! $chapter->isApproved() && ! $isCreator && ! $isAdmin) {
             abort(404, 'Chapter tidak ditemukan atau belum dipublikasikan.');

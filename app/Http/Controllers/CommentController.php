@@ -45,4 +45,24 @@ class CommentController extends Controller
 
         return redirect()->to(url()->previous() . '#komentar')->with('success', 'Komentar berhasil dihapus.');
     }
+
+    public function report(Request $request, Comment $comment): RedirectResponse
+    {
+        if ($comment->is_hidden || $comment->user_id === $request->user()->id) {
+            return back()->with('error', 'Komentar ini tidak dapat dilaporkan.');
+        }
+
+        $validated = $request->validate([
+            'reason' => ['nullable', 'in:Bahasa kasar,Spam,Pelecehan,Konten tidak pantas,Lainnya'],
+        ]);
+
+        $report = $comment->reports()->firstOrCreate(
+            ['reporter_id' => $request->user()->id],
+            ['reason' => $validated['reason'] ?? 'Komentar bermasalah', 'status' => 'pending']
+        );
+
+        return back()->with($report->wasRecentlyCreated ? 'success' : 'warning', $report->wasRecentlyCreated
+            ? 'Komentar berhasil dilaporkan untuk ditinjau Admin.'
+            : 'Anda sudah melaporkan komentar ini.');
+    }
 }

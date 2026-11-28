@@ -3,6 +3,8 @@
 @section('title', 'Moderasi Chapter - Panel Admin KOMIQ')
 
 @section('content')
+<a href="{{ route('admin.dashboard') }}" class="btn btn-secondary btn-sm" style="margin-bottom: 1.5rem;">← Kembali ke Dashboard Admin</a>
+
 <div style="margin-bottom: 2rem;">
     <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.25rem;">Panel Administrasi</div>
     <h1 style="font-size: 2rem;"><x-icon name="shield" /> Moderasi & Review Chapter</h1>
@@ -13,19 +15,19 @@
 
 <div style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
     <a href="{{ route('admin.chapter-reviews.index', ['status' => 'pending']) }}" 
-       class="btn {{ $statusFilter === 'pending' ? 'btn-primary' : 'btn-secondary' }} btn-sm" style="border-radius: 9999px;">
+       class="btn {{ $statusFilter === 'pending' ? 'btn-primary' : 'btn-secondary' }} btn-sm">
         <x-icon name="hourglass" /> Menunggu Review ({{ $counts['pending'] }})
     </a>
     <a href="{{ route('admin.chapter-reviews.index', ['status' => 'approved']) }}" 
-       class="btn {{ $statusFilter === 'approved' ? 'btn-primary' : 'btn-secondary' }} btn-sm" style="border-radius: 9999px;">
+       class="btn {{ $statusFilter === 'approved' ? 'btn-primary' : 'btn-secondary' }} btn-sm">
         <x-icon name="circle-check" /> Disetujui ({{ $counts['approved'] }})
     </a>
     <a href="{{ route('admin.chapter-reviews.index', ['status' => 'rejected']) }}" 
-       class="btn {{ $statusFilter === 'rejected' ? 'btn-primary' : 'btn-secondary' }} btn-sm" style="border-radius: 9999px;">
+       class="btn {{ $statusFilter === 'rejected' ? 'btn-primary' : 'btn-secondary' }} btn-sm">
         <x-icon name="circle-x" /> Ditolak ({{ $counts['rejected'] }})
     </a>
     <a href="{{ route('admin.chapter-reviews.index', ['status' => 'all']) }}" 
-       class="btn {{ $statusFilter === 'all' ? 'btn-primary' : 'btn-secondary' }} btn-sm" style="border-radius: 9999px;">
+       class="btn {{ $statusFilter === 'all' ? 'btn-primary' : 'btn-secondary' }} btn-sm">
         <x-icon name="clipboard-list" /> Semua Chapter ({{ $counts['all'] }})
     </a>
 </div>
@@ -41,7 +43,7 @@
                         <th>Halaman</th>
                         <th>Status</th>
                         <th>Waktu Pengajuan</th>
-                        <th style="text-align: right;">Aksi Moderasi</th>
+                        <th>Aksi Moderasi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -74,7 +76,7 @@
                             <td style="font-size: 0.85rem; color: var(--text-muted);">
                                 {{ $chapter->updated_at?->diffForHumans() }}
                             </td>
-                            <td style="text-align: right;">
+                            <td>
                                 <a href="{{ route('admin.chapter-reviews.show', $chapter->id) }}" class="btn btn-primary btn-sm whitespace-nowrap">
                                     <x-icon name="search" /> Periksa & Review
                                 </a>
